@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using EducationAPI.Data.Entities;
+using EducationAPI.Data.Context.Seeder;
 
 namespace EducationAPI.Data.Context
 {
@@ -24,7 +25,7 @@ namespace EducationAPI.Data.Context
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-           //builder.MusicSeedDatabase();
+            builder.EducationSeedDatabase();
         }
 
 

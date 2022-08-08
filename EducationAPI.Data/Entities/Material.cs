@@ -16,6 +16,7 @@ namespace EducationAPI.Data.Entities
         public string Location { get; set; }
         public int AuthorID { get; set; }
         public Author Author { get; set; }
+        public int MaterialTypeID { get; set; }
         public MaterialType MaterialType { get; set; }
         public IEnumerable<Review> Reviews { get; set; } = new List<Review>();
         public DateTime PublishingDate { get; set; }
