@@ -8,5 +8,6 @@ namespace EducationAPI.Services
         Task<AuthorDTO> GetAuthorByIDAsync(int authorID);
         Task CreateAuthorAsync(CreateAuthorDTO createAuthorDTO);
         Task DeleteAuthorAsync(int authorID);
+        Task UpdateAuthorAsync(UpdateAuthorDTO updateAuthorDTO, int authorID);
     }
 }

@@ -56,5 +56,17 @@ namespace EducationAPI.Controllers
             return NoContent();
         }
 
+
+        /// <summary>
+        /// Update an author by id
+        /// </summary> 
+        [HttpPatch("{authorID}")]
+
+        public async Task<ActionResult> UpdateAuthorAsync([FromBody] UpdateAuthorDTO updateAuthorDTO, [FromRoute] int authorID)
+        {
+            await _authorService.UpdateAuthorAsync(updateAuthorDTO, authorID);
+            return Ok();
+        }
+
     }
 }
