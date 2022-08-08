@@ -5,7 +5,7 @@ using EducationAPI.Data.Entities;
 
 namespace EducationAPI.Controllers
 {
-    [Route("api/type")]
+    [Route("api/types")]
     [ApiController]
     public class MaterialTypeController  : ControllerBase
     {

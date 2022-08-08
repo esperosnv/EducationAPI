@@ -34,7 +34,6 @@
 
 
 	<ItemGroup>
-	  <Folder Include="Models\Material\" />
 	  <Folder Include="Models\User\" />
 	  <Folder Include="Models\Review\" />
 	</ItemGroup>

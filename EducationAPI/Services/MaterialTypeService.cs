@@ -33,6 +33,5 @@ namespace EducationAPI.Services
             return materialTypeDTO;
         }
 
-
     }
 }

@@ -30,6 +30,8 @@ builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddScoped<IMaterialTypeService, MaterialTypeService>();
+builder.Services.AddScoped<IAuthorService, AuthorService>();
+
 builder.Services.AddEndpointsApiExplorer();
 
 
