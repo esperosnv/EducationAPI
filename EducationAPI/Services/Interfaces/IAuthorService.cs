@@ -5,5 +5,7 @@ namespace EducationAPI.Services
     public interface IAuthorService
     {
         Task<IEnumerable<AuthorDTO>> GetAllAuthorsAsync();
+        Task<AuthorDTO> GetAuthorByIDAsync(int authorID);
+        Task CreateAuthorAsync(CreateAuthorDTO createAuthorDTO);
     }
 }

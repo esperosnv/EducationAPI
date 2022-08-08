@@ -9,13 +9,15 @@ using Microsoft.EntityFrameworkCore;
 using System.Text;
 using EducationAPI.Services;
 using EducationAPI.Middleware;
-
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddMvc();
+builder.Services.AddControllers()
+        .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
-builder.Services.AddControllers();
 
 //DataBase
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -25,14 +27,12 @@ builder.Services.AddScoped<IBaseRepository<Author>, AuthorRepository>();
 builder.Services.AddScoped<IBaseRepository<Material>, MaterialRepository>();
 builder.Services.AddScoped<IBaseRepository<MaterialType>, MaterialTypeRepository>();
 builder.Services.AddScoped<IBaseRepository<Review>, ReviewRepository>();
-
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
 builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddScoped<IMaterialTypeService, MaterialTypeService>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 
 

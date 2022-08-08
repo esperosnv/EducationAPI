@@ -24,5 +24,22 @@ namespace EducationAPI.Services
             var authorsDTO = _mapper.Map<List<AuthorDTO>>(authors);
             return authorsDTO;
         }
+
+        public async Task<AuthorDTO> GetAuthorByIDAsync(int authorID)
+        {
+            var author = await _authorRepository.GetSingleAsync(A => A.AuthorID == authorID);
+            if (author is null) throw new ResourceNotFoundException($"Author with ID {authorID} not found");
+
+            var authorDTO = _mapper.Map<AuthorDTO>(author);
+            return authorDTO;
+        }
+
+        public async Task CreateAuthorAsync(CreateAuthorDTO createAuthorDTO)
+        {
+            var newAuthor = _mapper.Map<Author>(createAuthorDTO);
+
+            _authorRepository.Add(newAuthor);
+            await _authorRepository.SaveAsync();
+        }
     }
 }

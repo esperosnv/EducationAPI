@@ -9,7 +9,8 @@ namespace EducationAPI.Profiles
         public AuthorProfile()
         {
             CreateMap<Author, AuthorDTO>();
-                //.ForMember(d => d.Materials, a => a.MapFrom(m => m.Materials.Select(m => m.Title)));
+
+            CreateMap<CreateAuthorDTO, Author>();
         }
     }
 }

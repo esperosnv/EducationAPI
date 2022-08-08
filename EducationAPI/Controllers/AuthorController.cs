@@ -25,5 +25,25 @@ namespace EducationAPI.Controllers
             return Ok(authors);
         }
 
+        /// <summary>
+        /// Get an author by id
+        /// </summary> 
+        [HttpGet("{authorID}")]
+        public async Task<ActionResult<AuthorDTO>> GetAuthorAsync([FromRoute] int authorID)
+        {
+            var author = await _authorService.GetAuthorByIDAsync(authorID);
+            return Ok(author);
+        }
+
+        /// <summary>
+        /// Add new author 
+        /// </summary>
+        [HttpPost]
+        public async Task<ActionResult> CreateAuthorAsync([FromBody] CreateAuthorDTO createAuthorDTO)
+        {
+            await _authorService.CreateAuthorAsync(createAuthorDTO);
+            return Ok();
+        }
+
     }
 }
