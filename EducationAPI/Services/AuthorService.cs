@@ -41,5 +41,14 @@ namespace EducationAPI.Services
             _authorRepository.Add(newAuthor);
             await _authorRepository.SaveAsync();
         }
+
+        public async Task DeleteAuthorAsync(int authorID)
+        {
+            var author = await _authorRepository.GetSingleAsync(A => A.AuthorID == authorID);
+            if (author is null) throw new ResourceNotFoundException($"Author with ID {authorID} not found");
+
+            _authorRepository.Delete(author);
+            await _authorRepository.SaveAsync();
+        }
     }
 }

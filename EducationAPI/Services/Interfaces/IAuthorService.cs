@@ -7,5 +7,6 @@ namespace EducationAPI.Services
         Task<IEnumerable<AuthorDTO>> GetAllAuthorsAsync();
         Task<AuthorDTO> GetAuthorByIDAsync(int authorID);
         Task CreateAuthorAsync(CreateAuthorDTO createAuthorDTO);
+        Task DeleteAuthorAsync(int authorID);
     }
 }

@@ -45,5 +45,16 @@ namespace EducationAPI.Controllers
             return Ok();
         }
 
+
+        /// <summary>
+        /// Delete an author by id
+        /// </summary> 
+        [HttpDelete("{authorID}")]
+        public async Task<ActionResult> DeleteAuthorAsync([FromRoute] int authorID)
+        {
+            await _authorService.DeleteAuthorAsync(authorID);
+            return NoContent();
+        }
+
     }
 }
