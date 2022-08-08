@@ -8,7 +8,10 @@ namespace EducationAPI.Profiles
     {
         public MaterialProfile()
         {
-            CreateMap<Material, MaterialDTO>();
+            CreateMap<Material, MaterialDTO>()
+                    .ForMember(d => d.Author, a => a.MapFrom(m => m.Author.Name))
+                    .ForMember(d => d.MaterialType, a => a.MapFrom(m => m.MaterialType.Name));
+
             CreateMap<Material, MaterialsDTOForAnotherDTO>();
 
             CreateMap<CreateMaterialDTO, Material>();

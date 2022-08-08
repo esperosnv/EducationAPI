@@ -35,11 +35,11 @@ namespace EducationAPI.Data.Context.Seeder
             int humphrysID = 4;
             int kruszelnickiID = 5;
 
-            Author parker = new Author() { AuthorID = parkerID, Name = "Gabrila Parker", Description = "Professor at Jagiellonian University", Counter = 2 };
-            Author remmer = new Author() { AuthorID = remmerID, Name = "Herb Remmer", Description = "PhD at AGH", Counter = 2 };
-            Author oscroft = new Author() { AuthorID = oscroftID, Name = "Lira Oscroft", Description = "Master's at University of Warsaw", Counter = 2 };
-            Author humphrys = new Author() { AuthorID = humphrysID, Name = "Teador Humphrys", Description = "Engineer's at University of Wroclaw", Counter = 2 };
-            Author kruszelnicki = new Author() { AuthorID = kruszelnickiID, Name = "Konstantine Kruszelnicki", Description = "Student at Nicolaus Copernicus University", Counter = 2 };
+            Author parker = new Author() { AuthorID = parkerID, Name = "Gabrila Parker", Description = "Professor at Jagiellonian University" };
+            Author remmer = new Author() { AuthorID = remmerID, Name = "Herb Remmer", Description = "PhD at AGH"};
+            Author oscroft = new Author() { AuthorID = oscroftID, Name = "Lira Oscroft", Description = "Master's at University of Warsaw" };
+            Author humphrys = new Author() { AuthorID = humphrysID, Name = "Teador Humphrys", Description = "Engineer's at University of Wroclaw"};
+            Author kruszelnicki = new Author() { AuthorID = kruszelnickiID, Name = "Konstantine Kruszelnicki", Description = "Student at Nicolaus Copernicus University" };
             
             authors.Add(parker);
             authors.Add(remmer);    

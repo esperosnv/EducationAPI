@@ -13,12 +13,10 @@ namespace EducationAPI.Data.Entities
         public string Name { get; set; } 
         public string Description { get; set; }
         public IEnumerable<Material> Materials { get; set; }
-        public uint Counter { get; set; }
 
         public Author()
         {
             Materials = new List<Material>();
-            Counter = 0;    
         }
     }
 }

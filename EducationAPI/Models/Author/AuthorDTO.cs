@@ -8,6 +8,6 @@ namespace EducationAPI.Models.Author
         public string Name { get; set; }
         public string Description { get; set; }
         public List<MaterialsDTOForAnotherDTO> Materials { get; set; }
-        public uint Counter { get; set; }
+        public uint MaterialsCount { get; set; }
     }
 }

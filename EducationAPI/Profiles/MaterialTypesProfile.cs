@@ -9,6 +9,8 @@ namespace EducationAPI.Profiles
         public MaterialTypesProfile()
         {
             CreateMap<MaterialType, MaterialTypeDTO>();
+            CreateMap<MaterialType, MaterialTypeDTOForAnotherDTO>();
+
 
         }
     }

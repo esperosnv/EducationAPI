@@ -8,6 +8,5 @@
         //  public AuthorDTO Author { get; set; }
         // public MaterialTypeDTO MaterialType { get; set; }
         //public IEnumerable<Review> Reviews { get; set; } = new List<Review>();
-        public DateTime PublishingDate { get; set; }
     }
 }
