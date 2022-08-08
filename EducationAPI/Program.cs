@@ -8,6 +8,7 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 using EducationAPI.Services;
+using EducationAPI.Middleware;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +28,7 @@ builder.Services.AddScoped<IBaseRepository<Review>, ReviewRepository>();
 
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
+builder.Services.AddScoped<ErrorHandlingMiddleware>();
 builder.Services.AddScoped<IMaterialTypeService, MaterialTypeService>();
 builder.Services.AddEndpointsApiExplorer();
 
@@ -38,7 +40,7 @@ builder.Services.AddEndpointsApiExplorer();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-
+app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

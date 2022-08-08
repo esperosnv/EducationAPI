@@ -2,6 +2,7 @@
 using EducationAPI.Data.DAL.Interfaces;
 using EducationAPI.Data.Entities;
 using EducationAPI.Models.MaterialType;
+using EducationAPI.Data.Exceptions;
 
 namespace EducationAPI.Services
 {
@@ -26,10 +27,10 @@ namespace EducationAPI.Services
         public async Task<MaterialTypeDTO> GetMaterialsTypeByIDAsync(int typeID)
         {
             var materialType = await _materialTypeRepository.GetSingleAsync(t => t.MaterialTypeID == typeID);
+            if (materialType is null) throw new ResourceNotFoundException($"Type of materials with ID {typeID} not found");
+
             var materialTypeDTO = _mapper.Map<MaterialTypeDTO>(materialType);
-
             return materialTypeDTO;
-
         }
 
 
