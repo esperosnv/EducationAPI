@@ -62,5 +62,34 @@ namespace EducationAPI.Services
             _materialRepository.Delete(material);
             await _materialRepository.SaveAsync();
         }
+
+        public async Task UpdateMaterialAsync(UpdateMaterialDTO updateMaterialDTO, int materialID)
+        {
+
+            var material = await _materialRepository.GetSingleAsync(m => m.MaterialID == materialID);
+            if (material is null) throw new ResourceNotFoundException($"Material with ID {materialID} not found"); 
+
+            if (updateMaterialDTO.Description != null) material.Description = updateMaterialDTO.Description;
+            if (updateMaterialDTO.Title != null) material.Title = updateMaterialDTO.Title;
+            if (updateMaterialDTO.Location != null) material.Location = updateMaterialDTO.Location;
+            if (updateMaterialDTO.AuthorID != null)
+            {
+                var author = await _authorRepository.GetSingleAsync(A => A.AuthorID == updateMaterialDTO.AuthorID);
+                if (author is null) throw new ResourceNotFoundException($"Author with ID {updateMaterialDTO.AuthorID} not found");
+                material.AuthorID = (int)updateMaterialDTO.AuthorID;
+            }
+            if (updateMaterialDTO.MaterialTypeID != null)
+            {
+                var materialType = await _materialTypeRepository.GetSingleAsync(t => t.MaterialTypeID == updateMaterialDTO.MaterialTypeID);
+                if (materialType is null) throw new ResourceNotFoundException($"Type of materials with ID {updateMaterialDTO.MaterialTypeID} not found");
+                material.MaterialTypeID = (int)updateMaterialDTO.MaterialTypeID;
+            }
+            if (updateMaterialDTO.PublishingDate != null) material.PublishingDate = (DateTime)updateMaterialDTO.PublishingDate;
+
+            await _materialRepository.SaveAsync();
+        }
+
+
+
     }
 }

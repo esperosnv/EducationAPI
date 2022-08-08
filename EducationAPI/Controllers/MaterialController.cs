@@ -57,5 +57,16 @@ namespace EducationAPI.Controllers
             return NoContent();
         }
 
+
+        /// <summary>
+        /// Update a material by id
+        /// </summary> 
+        [HttpPatch("{materialID}")]
+        public async Task<ActionResult> UpdateMaterialAsync([FromBody] UpdateMaterialDTO updateMaterialDTO, [FromRoute] int materialID)
+        {
+            await _materialService.UpdateMaterialAsync(updateMaterialDTO, materialID);
+            return Ok();
+        }
+
     }
 }

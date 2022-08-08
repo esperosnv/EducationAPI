@@ -8,5 +8,6 @@ namespace EducationAPI.Services
         Task DeleteMaterialAsync(int materialID);
         Task<IEnumerable<MaterialDTO>> GetAllMaterialsAsync();
         Task<MaterialDTO> GetMaterialByIDAsync(int materialID);
+        Task UpdateMaterialAsync(UpdateMaterialDTO updateMaterialDTO, int materialID);
     }
 }
