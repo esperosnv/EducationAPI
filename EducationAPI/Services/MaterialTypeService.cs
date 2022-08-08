@@ -23,5 +23,15 @@ namespace EducationAPI.Services
             return materialTypesDTO;
         }
 
+        public async Task<MaterialTypeDTO> GetMaterialsTypeByIDAsync(int typeID)
+        {
+            var materialType = await _materialTypeRepository.GetSingleAsync(t => t.MaterialTypeID == typeID);
+            var materialTypeDTO = _mapper.Map<MaterialTypeDTO>(materialType);
+
+            return materialTypeDTO;
+
+        }
+
+
     }
 }
