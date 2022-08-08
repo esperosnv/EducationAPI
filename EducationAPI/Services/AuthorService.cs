@@ -4,6 +4,10 @@ using EducationAPI.Data.Entities;
 using EducationAPI.Models.MaterialType;
 using EducationAPI.Data.Exceptions;
 using EducationAPI.Models.Author;
+using EducationAPI.Models;
+using EducationAPI.Data.Entities;
+
+
 
 namespace EducationAPI.Services
 {
@@ -18,9 +22,10 @@ namespace EducationAPI.Services
             _authorRepository = authorRepository;
         }
 
-        public async Task<IEnumerable<AuthorDTO>> GetAllAuthorsAsync(string searchPhrase)
+        public async Task<IEnumerable<AuthorDTO>> GetAllAuthorsAsync(string? searchPhrase, string? direction)
         {
-            var authors = await _authorRepository.GetAllAsync(searchPhrase);
+            
+            var authors = await _authorRepository.GetAllAsync(searchPhrase, direction);
             var authorsDTO = _mapper.Map<List<AuthorDTO>>(authors);
             return authorsDTO;
         }

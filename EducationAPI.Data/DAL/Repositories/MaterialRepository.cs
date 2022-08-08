@@ -7,6 +7,7 @@ using EducationAPI.Data.DAL.Interfaces;
 using EducationAPI.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace EducationAPI.Data.DAL.Repositories
 {
     public class MaterialRepository : IBaseRepository<Material>
@@ -28,10 +29,22 @@ namespace EducationAPI.Data.DAL.Repositories
 
         }
 
-        public async Task<List<Material>> GetAllAsync(string searchPhrase)
+        public async Task<List<Material>> GetAllAsync(string? searchPhrase, string? direction)
         {
-            return await _educationContext.Materials.Include(m => m.Author).Include(m => m.MaterialType)
-                                            .Where(a => searchPhrase == null || a.Title.ToLower().Contains(searchPhrase.ToLower())).ToListAsync();
+            var baseQuery = _educationContext.Materials.Include(m => m.Author).Include(m => m.MaterialType)
+                                            .Where(a => searchPhrase == null || a.Title.ToLower().Contains(searchPhrase.ToLower()));
+
+            switch (direction)
+            {
+                case "ASC":
+                    baseQuery = baseQuery.OrderBy(r => r.Title);
+                    break;
+                case "DESC":
+                    baseQuery = baseQuery.OrderByDescending(r => r.Title);
+                    break;
+            }
+
+            return await baseQuery.ToListAsync();
         }
 
         public async Task<Material> GetSingleAsync(Func<Material, bool> condition)

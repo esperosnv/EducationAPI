@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using EducationAPI.Data.Entities;
+﻿using EducationAPI.Data.Entities;
 using EducationAPI.Data.DAL.Interfaces;
 using EducationAPI.Data.Context;
 using Microsoft.EntityFrameworkCore;
+using EducationAPI.Data.Exceptions;
+
+
 
 namespace EducationAPI.Data.DAL.Repositories
 {
@@ -27,11 +26,21 @@ namespace EducationAPI.Data.DAL.Repositories
             _educationContext.Authors.Remove(entity);
         }
 
-        public async Task<List<Author>> GetAllAsync(string searchPhrase)
+        public async Task<List<Author>> GetAllAsync(string? searchPhrase, string? direction)
         {
-            return await _educationContext.Authors.Include(a => a.Materials)
-                                    .Where(a => searchPhrase == null || a.Name.ToLower().Contains(searchPhrase.ToLower()))
-                                    .ToListAsync();
+            var baseQuery = _educationContext.Authors.Include(a => a.Materials)
+                                    .Where(a => searchPhrase == null || a.Name.ToLower().Contains(searchPhrase.ToLower()));
+
+            switch (direction)
+            {
+                case "ASC":
+                    baseQuery = baseQuery.OrderBy(r => r.Name);
+                    break;
+                case "DESC":
+                    baseQuery = baseQuery.OrderByDescending(r => r.Name);
+                    break;
+            }
+            return await baseQuery.ToListAsync();
         }
 
         public async Task<Author> GetSingleAsync(Func<Author, bool> condition)

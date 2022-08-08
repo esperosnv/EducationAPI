@@ -5,6 +5,7 @@ using EducationAPI.Models.Material;
 using EducationAPI.Data.Exceptions;
 using EducationAPI.Models.Author;
 using EducationAPI.Data.Entities;
+using EducationAPI.Models;
 
 namespace EducationAPI.Services
 {
@@ -24,9 +25,9 @@ namespace EducationAPI.Services
             _authorRepository = authorRepository;
         }
 
-        public async Task<IEnumerable<MaterialDTO>> GetAllMaterialsAsync(string searchPhrase)
+        public async Task<IEnumerable<MaterialDTO>> GetAllMaterialsAsync(string? searchPhrase, string? direction)
         {
-            var materials = await _materialRepository.GetAllAsync(searchPhrase);
+            var materials = await _materialRepository.GetAllAsync(searchPhrase, direction);
             var materialsDTO = _mapper.Map<List<MaterialDTO>>(materials);
             return materialsDTO;
         }

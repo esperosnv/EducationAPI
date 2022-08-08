@@ -7,6 +7,7 @@ using EducationAPI.Data.DAL.Interfaces;
 using EducationAPI.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace EducationAPI.Data.DAL.Repositories
 {
     public class ReviewRepository : IBaseRepository<Review>
@@ -27,10 +28,21 @@ namespace EducationAPI.Data.DAL.Repositories
             _educationContext.Reviews.Remove(entity);
         }
 
-        public async Task<List<Review>> GetAllAsync(string searchPhrase)
+        public async Task<List<Review>> GetAllAsync(string? searchPhrase, string? direction)
         {
-            return await _educationContext.Reviews.Include(a => a.Material)
-                                                .Where(a => searchPhrase == null || a.Text.ToLower().Contains(searchPhrase.ToLower())).ToListAsync();
+            var baseQuery = _educationContext.Reviews.Include(a => a.Material)
+                                                .Where(a => searchPhrase == null || a.Text.ToLower().Contains(searchPhrase.ToLower()));
+            switch (direction)
+            {
+                case "ASC":
+                    baseQuery = baseQuery.OrderBy(r => r.Rating);
+                    break;
+                case "DESC":
+                    baseQuery = baseQuery.OrderByDescending(r => r.Rating);
+                    break;
+            }
+
+            return await baseQuery.ToListAsync();
         }
 
         public async Task<Review> GetSingleAsync(Func<Review, bool> condition)

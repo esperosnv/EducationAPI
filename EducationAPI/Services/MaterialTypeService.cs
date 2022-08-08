@@ -3,6 +3,9 @@ using EducationAPI.Data.DAL.Interfaces;
 using EducationAPI.Data.Entities;
 using EducationAPI.Models.MaterialType;
 using EducationAPI.Data.Exceptions;
+using EducationAPI.Models;
+using EducationAPI.Data.Entities;
+
 
 namespace EducationAPI.Services
 {
@@ -17,9 +20,9 @@ namespace EducationAPI.Services
             _materialTypeRepository = materialTypeRepository;
         }
 
-        public async Task<IEnumerable<MaterialTypeDTO>> GetAllMaterialsTypeAsync(string searchPhrase)
+        public async Task<IEnumerable<MaterialTypeDTO>> GetAllMaterialsTypeAsync(string? searchPhrase, string? direction)
         {
-            var materialTypes = await _materialTypeRepository.GetAllAsync(searchPhrase);
+            var materialTypes = await _materialTypeRepository.GetAllAsync(searchPhrase, direction);
             var materialTypesDTO = _mapper.Map<IEnumerable<MaterialTypeDTO>>(materialTypes);
             return materialTypesDTO;
         }

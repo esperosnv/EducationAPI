@@ -2,6 +2,10 @@
 using EducationAPI.Services;
 using EducationAPI.Models.MaterialType;
 using EducationAPI.Data.Entities;
+using EducationAPI.Models;
+using EducationAPI.Data.Exceptions;
+
+
 
 namespace EducationAPI.Controllers
 {
@@ -21,9 +25,10 @@ namespace EducationAPI.Controllers
         /// </summary> 
        
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MaterialTypeDTO>>> GetAllMaterialsTypeAsync([FromQuery] string? searchPhrase)
+        public async Task<ActionResult<IEnumerable<MaterialTypeDTO>>> GetAllMaterialsTypeAsync([FromQuery] string? searchPhrase, string? direction)
         {
-            var materialsTypes = await _materialTypeService.GetAllMaterialsTypeAsync(searchPhrase);
+            if (direction != null && direction != "ASC" && direction != "DESC") throw new ResourceNotFoundException("Not correct direction");
+            var materialsTypes = await _materialTypeService.GetAllMaterialsTypeAsync(searchPhrase, direction);
             return Ok(materialsTypes);
         }
 

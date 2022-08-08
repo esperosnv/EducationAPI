@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using EducationAPI.Services;
 using EducationAPI.Models.Author;
+using EducationAPI.Data.Exceptions;
+using EducationAPI.Data.Exceptions;
+
 
 namespace EducationAPI.Controllers
 {
@@ -19,9 +22,10 @@ namespace EducationAPI.Controllers
         /// </summary> 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AuthorDTO>>> GetAllAuthorsAsync([FromQuery] string? searchPhrase)
+        public async Task<ActionResult<IEnumerable<AuthorDTO>>> GetAllAuthorsAsync([FromQuery] string? searchPhrase, string? direction)
         {
-            var authors = await _authorService.GetAllAuthorsAsync(searchPhrase);
+            if (direction != null && direction != "ASC" && direction != "DESC") throw new ResourceNotFoundException("Not correct direction");
+            var authors = await _authorService.GetAllAuthorsAsync(searchPhrase, direction);
             return Ok(authors);
         }
 

@@ -3,8 +3,10 @@ using EducationAPI.Data.DAL.Interfaces;
 using EducationAPI.Data.Entities;
 using EducationAPI.Models.MaterialType;
 using EducationAPI.Data.Exceptions;
-using EducationAPI.Models.Author;
+using EducationAPI.Data.Entities;
 using EducationAPI.Models.Review;
+using EducationAPI.Models;
+
 
 namespace EducationAPI.Services
 {
@@ -22,9 +24,9 @@ namespace EducationAPI.Services
             _materialRepository = materialRepository;
         }
 
-        public async Task<IEnumerable<ReviewDTO>> GetAllReviewAsync(string searchPhrase)
+        public async Task<IEnumerable<ReviewDTO>> GetAllReviewAsync(string? searchPhrase, string? direction)
         {
-            var reviews = await _reviewRepository.GetAllAsync(searchPhrase);
+            var reviews = await _reviewRepository.GetAllAsync(searchPhrase, direction);
             var reviewDTO = _mapper.Map<List<ReviewDTO>>(reviews);
             return reviewDTO;
         }

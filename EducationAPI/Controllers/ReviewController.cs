@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using EducationAPI.Services;
 using EducationAPI.Models.Review;
+using EducationAPI.Data.Exceptions;
+
 
 
 namespace EducationAPI.Controllers
@@ -19,9 +21,10 @@ namespace EducationAPI.Controllers
         /// Get all reviews
         /// </summary> 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ReviewDTO>>> GetAllReviewsAsync([FromQuery] string? searchPhrase)
+        public async Task<ActionResult<IEnumerable<ReviewDTO>>> GetAllReviewsAsync([FromQuery] string? searchPhrase, string? direction)
         {
-            var reviews = await _reviewServices.GetAllReviewAsync(searchPhrase);
+            if (direction != null && direction != "ASC" && direction != "DESC") throw new ResourceNotFoundException("Not correct direction");
+            var reviews = await _reviewServices.GetAllReviewAsync(searchPhrase, direction);
                 return Ok(reviews);
         }
 
