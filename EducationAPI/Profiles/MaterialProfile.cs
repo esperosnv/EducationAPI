@@ -11,6 +11,9 @@ namespace EducationAPI.Profiles
             CreateMap<Material, MaterialDTO>();
             CreateMap<Material, MaterialsDTOForAnotherDTO>();
 
+            CreateMap<CreateMaterialDTO, Material>();
+
+
         }
     }
 }
