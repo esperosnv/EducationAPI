@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EducationAPI.Data.DAL.Repositories
 {
-    public class ReviewRepositories : IBaseRepository<Review>
+    public class ReviewRepository : IBaseRepository<Review>
     {
         private readonly EducationAPIContext _educationContext;
-        public ReviewRepositories()
+        public ReviewRepository()
         {
             _educationContext = new EducationAPIContext();
         }
