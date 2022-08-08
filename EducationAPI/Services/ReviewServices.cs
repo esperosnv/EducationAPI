@@ -22,9 +22,9 @@ namespace EducationAPI.Services
             _materialRepository = materialRepository;
         }
 
-        public async Task<IEnumerable<ReviewDTO>> GetAllReviewAsync()
+        public async Task<IEnumerable<ReviewDTO>> GetAllReviewAsync(string searchPhrase)
         {
-            var reviews = await _reviewRepository.GetAllAsync();
+            var reviews = await _reviewRepository.GetAllAsync(searchPhrase);
             var reviewDTO = _mapper.Map<List<ReviewDTO>>(reviews);
             return reviewDTO;
         }

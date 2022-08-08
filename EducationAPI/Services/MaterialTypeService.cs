@@ -17,9 +17,9 @@ namespace EducationAPI.Services
             _materialTypeRepository = materialTypeRepository;
         }
 
-        public async Task<IEnumerable<MaterialTypeDTO>> GetAllMaterialsTypeAsync()
+        public async Task<IEnumerable<MaterialTypeDTO>> GetAllMaterialsTypeAsync(string searchPhrase)
         {
-            var materialTypes = await _materialTypeRepository.GetAllAsync();
+            var materialTypes = await _materialTypeRepository.GetAllAsync(searchPhrase);
             var materialTypesDTO = _mapper.Map<IEnumerable<MaterialTypeDTO>>(materialTypes);
             return materialTypesDTO;
         }

@@ -4,7 +4,7 @@ namespace EducationAPI.Services
 {
     public interface IAuthorService
     {
-        Task<IEnumerable<AuthorDTO>> GetAllAuthorsAsync();
+        Task<IEnumerable<AuthorDTO>> GetAllAuthorsAsync(string searchPhrase);
         Task<AuthorDTO> GetAuthorByIDAsync(int authorID);
         Task CreateAuthorAsync(CreateAuthorDTO createAuthorDTO);
         Task DeleteAuthorAsync(int authorID);

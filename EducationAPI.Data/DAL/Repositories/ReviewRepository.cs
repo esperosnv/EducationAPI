@@ -27,9 +27,10 @@ namespace EducationAPI.Data.DAL.Repositories
             _educationContext.Reviews.Remove(entity);
         }
 
-        public async Task<List<Review>> GetAllAsync()
+        public async Task<List<Review>> GetAllAsync(string searchPhrase)
         {
-            return await _educationContext.Reviews.Include(a => a.Material).ToListAsync();
+            return await _educationContext.Reviews.Include(a => a.Material)
+                                                .Where(a => searchPhrase == null || a.Text.ToLower().Contains(searchPhrase.ToLower())).ToListAsync();
         }
 
         public async Task<Review> GetSingleAsync(Func<Review, bool> condition)

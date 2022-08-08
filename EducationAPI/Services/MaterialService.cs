@@ -24,9 +24,9 @@ namespace EducationAPI.Services
             _authorRepository = authorRepository;
         }
 
-        public async Task<IEnumerable<MaterialDTO>> GetAllMaterialsAsync()
+        public async Task<IEnumerable<MaterialDTO>> GetAllMaterialsAsync(string searchPhrase)
         {
-            var materials = await _materialRepository.GetAllAsync();
+            var materials = await _materialRepository.GetAllAsync(searchPhrase);
             var materialsDTO = _mapper.Map<List<MaterialDTO>>(materials);
             return materialsDTO;
         }

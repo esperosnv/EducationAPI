@@ -20,9 +20,9 @@ namespace EducationAPI.Controllers
         /// </summary> 
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MaterialDTO>>> GetAllAuthorsAsync()
+        public async Task<ActionResult<IEnumerable<MaterialDTO>>> GetAllAuthorsAsync([FromQuery] string? searchPhrase)
         {
-            var materials = await _materialService.GetAllMaterialsAsync();
+            var materials = await _materialService.GetAllMaterialsAsync(searchPhrase);
             return Ok(materials);
         }
 

@@ -27,9 +27,11 @@ namespace EducationAPI.Data.DAL.Repositories
             _educationContext.Authors.Remove(entity);
         }
 
-        public async Task<List<Author>> GetAllAsync()
+        public async Task<List<Author>> GetAllAsync(string searchPhrase)
         {
-            return await _educationContext.Authors.Include(a => a.Materials).ToListAsync();
+            return await _educationContext.Authors.Include(a => a.Materials)
+                                    .Where(a => searchPhrase == null || a.Name.ToLower().Contains(searchPhrase.ToLower()))
+                                    .ToListAsync();
         }
 
         public async Task<Author> GetSingleAsync(Func<Author, bool> condition)

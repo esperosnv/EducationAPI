@@ -21,9 +21,9 @@ namespace EducationAPI.Controllers
         /// </summary> 
        
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MaterialTypeDTO>>> GetAllMaterialsTypeAsync()
+        public async Task<ActionResult<IEnumerable<MaterialTypeDTO>>> GetAllMaterialsTypeAsync([FromQuery] string? searchPhrase)
         {
-            var materialsTypes = await _materialTypeService.GetAllMaterialsTypeAsync();
+            var materialsTypes = await _materialTypeService.GetAllMaterialsTypeAsync(searchPhrase);
             return Ok(materialsTypes);
         }
 

@@ -19,9 +19,9 @@ namespace EducationAPI.Controllers
         /// Get all reviews
         /// </summary> 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ReviewDTO>>> GetAllReviewsAsync()
+        public async Task<ActionResult<IEnumerable<ReviewDTO>>> GetAllReviewsAsync([FromQuery] string? searchPhrase)
         {
-            var reviews = await _reviewServices.GetAllReviewAsync();
+            var reviews = await _reviewServices.GetAllReviewAsync(searchPhrase);
                 return Ok(reviews);
         }
 

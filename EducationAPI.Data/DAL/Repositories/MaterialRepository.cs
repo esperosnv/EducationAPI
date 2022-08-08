@@ -28,9 +28,10 @@ namespace EducationAPI.Data.DAL.Repositories
 
         }
 
-        public async Task<List<Material>> GetAllAsync()
+        public async Task<List<Material>> GetAllAsync(string searchPhrase)
         {
-            return await _educationContext.Materials.Include(m => m.Author).Include(m => m.MaterialType).ToListAsync();
+            return await _educationContext.Materials.Include(m => m.Author).Include(m => m.MaterialType)
+                                            .Where(a => searchPhrase == null || a.Title.ToLower().Contains(searchPhrase.ToLower())).ToListAsync();
         }
 
         public async Task<Material> GetSingleAsync(Func<Material, bool> condition)

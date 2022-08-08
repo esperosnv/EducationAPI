@@ -27,9 +27,10 @@ namespace EducationAPI.Data.DAL.Repositories
             _educationContext.MaterialTypes.Remove(entity);
         }
 
-        public async Task<List<MaterialType>> GetAllAsync()
+        public async Task<List<MaterialType>> GetAllAsync(string searchPhrase)
         {
-            return await _educationContext.MaterialTypes.ToListAsync();
+            return await _educationContext.MaterialTypes
+                                            .Where(a => searchPhrase == null || a.Name.ToLower().Contains(searchPhrase.ToLower())).ToListAsync();
         }
 
         public async Task<MaterialType> GetSingleAsync(Func<MaterialType, bool> condition)

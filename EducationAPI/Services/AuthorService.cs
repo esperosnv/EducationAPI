@@ -18,9 +18,9 @@ namespace EducationAPI.Services
             _authorRepository = authorRepository;
         }
 
-        public async Task<IEnumerable<AuthorDTO>> GetAllAuthorsAsync()
+        public async Task<IEnumerable<AuthorDTO>> GetAllAuthorsAsync(string searchPhrase)
         {
-            var authors = await _authorRepository.GetAllAsync();
+            var authors = await _authorRepository.GetAllAsync(searchPhrase);
             var authorsDTO = _mapper.Map<List<AuthorDTO>>(authors);
             return authorsDTO;
         }
