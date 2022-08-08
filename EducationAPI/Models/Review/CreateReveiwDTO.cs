@@ -1,0 +1,13 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+
+namespace EducationAPI.Models.Review
+{
+    public class CreateReveiwDTO
+    {
+        public string Text { get; set; }
+        public int MaterialID { get; set; }
+        [Range(0, 10)]
+        public uint Rating { get; set; }
+    }
+}
