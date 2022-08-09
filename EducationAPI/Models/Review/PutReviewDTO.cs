@@ -10,6 +10,6 @@ namespace EducationAPI.Models.Review
         public int MaterialID { get; set; }
         [Required]
         [Range(0, 10)]
-        public uint Rating { get; set; }
+        public int Rating { get; set; }
     }
 }

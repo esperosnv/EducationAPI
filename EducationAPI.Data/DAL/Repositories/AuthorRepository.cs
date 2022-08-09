@@ -45,7 +45,7 @@ namespace EducationAPI.Data.DAL.Repositories
 
         public async Task<Author> GetSingleAsync(Func<Author, bool> condition)
         {
-            return await Task.FromResult(_educationContext.Authors.Include(a => a.Materials).FirstOrDefault(condition));
+            return await Task.FromResult(_educationContext.Authors.Include(a => a.Materials).ThenInclude(m => m.Reviews).FirstOrDefault(condition));
         }
 
         public async Task SaveAsync()

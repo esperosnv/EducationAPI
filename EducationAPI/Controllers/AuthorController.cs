@@ -27,7 +27,7 @@ namespace EducationAPI.Controllers
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(IEnumerable<AuthorDTO>))]
-
+        [Authorize(Roles = "Admin, User")]
         public async Task<ActionResult<IEnumerable<AuthorDTO>>> GetAllAuthorsAsync([FromQuery] string? searchPhrase, string? direction)
         {
             var authors = await _authorService.GetAllAuthorsAsync(searchPhrase, direction);
@@ -38,6 +38,7 @@ namespace EducationAPI.Controllers
         /// Get an author by id
         /// </summary> 
         [HttpGet("{authorID}")]
+        [Authorize(Roles = "Admin, User")]
         [Produces(MediaTypeNames.Application.Json)]
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(AuthorDTO))]
         [SwaggerResponse(StatusCodes.Status404NotFound)]
@@ -108,6 +109,29 @@ namespace EducationAPI.Controllers
             var updateAuthor = await _authorService.UpdateAuthorAsync(updateAuthorDTO, authorID);
             return Ok(updateAuthor);
         }
+
+        /// <summary>
+        /// Get an author by id
+        /// </summary> 
+        [HttpGet("productive")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(AuthorDTO))]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
+
+        public async Task<ActionResult<AuthorDTO>> GetMostProductiveAuthorAsync([FromRoute] int authorID)
+        {
+            var author = await _authorService.GetProductiveAuthorsAsync();
+            return Ok(author);
+        }
+
+
+        //[HttpGet("{authorID}/top")]
+
+        //public async Task<ActionResult> GetTopMaterialsFromAuthor([FromRoute] int authorID)
+        //{
+        //    var materialDTO = await _authorService.GetTopMaterialsFromAuthorAsync(authorID);
+        //    return Ok(materialDTO);
+        //}
 
     }
 }

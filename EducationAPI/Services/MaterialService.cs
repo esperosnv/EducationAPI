@@ -132,6 +132,14 @@ namespace EducationAPI.Services
             return await GetMaterialByIDAsync(materialID);
         }
 
+        public async Task<IEnumerable<MaterialDTO>> GetMaterialsFromSelectedType(string typeName)
+        {
+            var materials = await _materialRepository.GetAllAsync(null, null);
+            var selectedMaterials = materials.Where(m => m.MaterialType.Name.ToLower() == typeName.ToLower()).ToList();
+            var materialsDTO = _mapper.Map<List<MaterialDTO>>(selectedMaterials);
+            return materialsDTO;
+        }
+
 
 
     }

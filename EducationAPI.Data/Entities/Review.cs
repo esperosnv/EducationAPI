@@ -15,7 +15,7 @@ namespace EducationAPI.Data.Entities
         public int MaterialID { get; set; }
         public Material Material { get; set; }
         [Range(0, 10)]
-        public uint Rating { get; set; }
+        public int Rating { get; set; }
 
     }
 }

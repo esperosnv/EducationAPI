@@ -29,6 +29,7 @@ namespace EducationAPI.Controllers
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(IEnumerable<MaterialDTO>))]
+        [Authorize(Roles = "Admin, User")]
         public async Task<ActionResult<IEnumerable<MaterialDTO>>> GetAllAuthorsAsync([FromQuery] string? searchPhrase, string? direction)
         {
             var materials = await _materialService.GetAllMaterialsAsync(searchPhrase, direction);
@@ -43,6 +44,7 @@ namespace EducationAPI.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(MaterialDTO))]
         [SwaggerResponse(StatusCodes.Status404NotFound)]
+        [Authorize(Roles = "Admin, User")]
         public async Task<ActionResult<MaterialDTO>> GetMaterialAsync([FromRoute] int materialID)
         {
             var material = await _materialService.GetMaterialByIDAsync(materialID);
@@ -109,6 +111,21 @@ namespace EducationAPI.Controllers
             var updateMaterial = await _materialService.UpdateMaterialAsync(updateMaterialDTO, materialID);
             return Ok(updateMaterial);
         }
+
+        /// <summary>
+        /// Get materials by type
+        /// </summary> 
+        /// 
+        [HttpGet("type/{typeName}")]
+
+        [Produces(MediaTypeNames.Application.Json)]
+        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(IEnumerable<MaterialDTO>))]
+        public async Task<ActionResult<IEnumerable<MaterialDTO>>> GetMaterialsByType([FromRoute] string typeName)
+        {
+            var materials = await _materialService.GetMaterialsFromSelectedType(typeName);
+            return Ok(materials);
+        }
+
 
     }
 }

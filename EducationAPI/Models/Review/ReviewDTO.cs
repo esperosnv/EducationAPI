@@ -12,6 +12,6 @@ namespace EducationAPI.Models.Review
         [Required]
         public string Material { get; set; }
         [Required]
-        public uint Rating { get; set; }
+        public int Rating { get; set; }
     }
 }

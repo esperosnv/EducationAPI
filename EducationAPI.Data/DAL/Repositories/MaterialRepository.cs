@@ -31,7 +31,7 @@ namespace EducationAPI.Data.DAL.Repositories
 
         public async Task<List<Material>> GetAllAsync(string? searchPhrase, string? direction)
         {
-            var baseQuery = _educationContext.Materials.Include(m => m.Author).Include(m => m.MaterialType)
+            var baseQuery = _educationContext.Materials.Include(m => m.Author).Include(m => m.MaterialType).Include(m => m.Reviews)
                                             .Where(a => searchPhrase == null || a.Title.ToLower().Contains(searchPhrase.ToLower()));
 
             switch (direction)
@@ -49,7 +49,7 @@ namespace EducationAPI.Data.DAL.Repositories
 
         public async Task<Material> GetSingleAsync(Func<Material, bool> condition)
         {
-            return await Task.FromResult(_educationContext.Materials.Include(m => m.Author).Include(m => m.MaterialType).FirstOrDefault(condition));
+            return await Task.FromResult(_educationContext.Materials.Include(m => m.Author).Include(m => m.MaterialType).Include(m => m.Reviews).FirstOrDefault(condition));
         }
 
         public async Task SaveAsync()

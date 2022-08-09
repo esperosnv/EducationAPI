@@ -84,7 +84,7 @@ namespace EducationAPI.Services
 
 
             if (updateReviewDTO.Text != null) review.Text = updateReviewDTO.Text;
-            if (updateReviewDTO.Rating != null) review.Rating = (uint)updateReviewDTO.Rating;
+            if (updateReviewDTO.Rating != null) review.Rating = (int)updateReviewDTO.Rating;
 
             if (updateReviewDTO.MaterialID != null)
             {
@@ -106,7 +106,7 @@ namespace EducationAPI.Services
             if (review is null) throw new ResourceNotFoundException($"Review with ID {reviewID} not found");
 
             review.Text = putReviewDTO.Text;
-            review.Rating = (uint)putReviewDTO.Rating;
+            review.Rating = (int)putReviewDTO.Rating;
           
             var material = await _materialRepository.GetSingleAsync(m => m.MaterialID == putReviewDTO.MaterialID);
             if (material is null) throw new ResourceNotFoundException($"Material with ID {putReviewDTO.MaterialID} not found");

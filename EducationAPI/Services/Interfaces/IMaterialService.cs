@@ -14,5 +14,6 @@ namespace EducationAPI.Services
         Task<MaterialDTO> GetMaterialByIDAsync(int materialID);
         Task<MaterialDTO> UpdateMaterialAsync(UpdateMaterialDTO updateMaterialDTO, int materialID);
         Task<MaterialDTO> PutMaterialAsync(PutMaterialsDTO putMaterialsDTO, int materialID);
+        Task<IEnumerable<MaterialDTO>> GetMaterialsFromSelectedType(string typeName);
     }
 }

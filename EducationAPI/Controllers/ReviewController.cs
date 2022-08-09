@@ -26,6 +26,7 @@ namespace EducationAPI.Controllers
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(IEnumerable<ReviewDTO>))]
+        [Authorize(Roles = "Admin, User")]
         public async Task<ActionResult<IEnumerable<ReviewDTO>>> GetAllReviewsAsync([FromQuery] string? searchPhrase, string? direction)
         {
             var reviews = await _reviewServices.GetAllReviewAsync(searchPhrase, direction);
@@ -39,6 +40,8 @@ namespace EducationAPI.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(ReviewDTO))]
         [SwaggerResponse(StatusCodes.Status404NotFound)]
+        [Authorize(Roles = "Admin, User")]
+
         public async Task<ActionResult<ReviewDTO>> GetReviewAsync([FromRoute] int reviewID)
         {
             var review = await _reviewServices.GetReviewByIDAsync(reviewID);
@@ -53,6 +56,8 @@ namespace EducationAPI.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         [SwaggerResponse(StatusCodes.Status201Created, Type = typeof(ReviewDTO))]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin, User")]
+
         public async Task<ActionResult> CreateReviewAsync([FromBody] CreateReveiwDTO createReveiwDTO)
         {
             var newReview = await _reviewServices.CreateReviewAsync(createReveiwDTO);
@@ -68,6 +73,7 @@ namespace EducationAPI.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(ReviewDTO))]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin, User")]
 
         public async Task<ActionResult>PutReviewAsync([FromBody] PutReviewDTO putReviewDTO, [FromRoute] int reviewID)
         {
@@ -98,6 +104,7 @@ namespace EducationAPI.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(ReviewDTO))]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin, User")]
 
         public async Task<ActionResult> UpdateReviewAsync([FromBody] UpdateReviewDTO updateReviewDTO, [FromRoute] int reviewID)
         {

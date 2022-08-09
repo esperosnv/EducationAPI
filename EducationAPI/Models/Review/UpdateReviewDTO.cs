@@ -7,6 +7,6 @@ namespace EducationAPI.Models.Review
         public string? Text { get; set; }
         public int? MaterialID { get; set; }
         [Range(0, 10)]
-        public uint? Rating { get; set; }
+        public int? Rating { get; set; }
     }
 }

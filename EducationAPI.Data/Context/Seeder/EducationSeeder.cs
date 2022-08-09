@@ -21,7 +21,7 @@ namespace EducationAPI.Data.Context.Seeder
             MaterialType article = new MaterialType() { MaterialTypeID = articleID, Name = "Article", Definition = "A written work published in a print or electronic medium." };
             MaterialType video = new MaterialType() { MaterialTypeID = videoID, Name = "Video", Definition = "A video material that focuses mostly on guiding step-by-step in dedicated topic”)" };
             MaterialType tutorial = new MaterialType() { MaterialTypeID = tutorialID, Name = "Tutorial", Definition = "A written step-by-step guide." };
-            MaterialType book = new MaterialType() { MaterialTypeID = bookID, Name = "Article", Definition = "A long educational work published in printed or electronic form." };
+            MaterialType book = new MaterialType() { MaterialTypeID = bookID, Name = "Book", Definition = "A long educational work published in printed or electronic form." };
             materialTypes.Add(article);
             materialTypes.Add(video);
             materialTypes.Add(tutorial);
@@ -96,7 +96,7 @@ namespace EducationAPI.Data.Context.Seeder
                 Title = "MaurisEnim.ppt",
                 Description = "Virtual 24 hour migration",
                 Location = "flavors.me",
-                AuthorID = parkerID,
+                AuthorID = kruszelnickiID,
                 MaterialTypeID = tutorialID,
                 PublishingDate = new DateTime(2005, 10, 01)
             };
