@@ -111,7 +111,7 @@ namespace EducationAPI.Controllers
         }
 
         /// <summary>
-        /// Get an author by id
+        /// Get most productive author
         /// </summary> 
         [HttpGet("productive")]
         [Produces(MediaTypeNames.Application.Json)]

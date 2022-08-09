@@ -71,10 +71,18 @@ builder.Services.AddSwaggerGen(c =>
 // NLog: Setup NLog for Dependency injection
 builder.Logging.ClearProviders();
 builder.Host.UseNLog();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(build =>
+    {
+        build.AllowAnyHeader();
+    });
+});
 
 
 var app = builder.Build();
-
+app.UseResponseCaching();
+app.UseStaticFiles();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -84,8 +92,7 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Education API");
     });
 }
-
-
+app.UseCors();
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseAuthentication();
 app.UseHttpsRedirection();

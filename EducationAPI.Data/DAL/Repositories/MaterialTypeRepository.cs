@@ -30,20 +30,7 @@ namespace EducationAPI.Data.DAL.Repositories
 
         public async Task<List<MaterialType>> GetAllAsync(string? searchPhrase, string? direction)
         {
-            var baseQuery = _educationContext.MaterialTypes
-                                            .Where(a => searchPhrase == null || a.Name.ToLower().Contains(searchPhrase.ToLower()));
-
-            switch (direction)
-            {
-                case "asc":
-                    baseQuery = baseQuery.OrderBy(r => r.Name);
-                    break;
-                case "desc":
-                    baseQuery = baseQuery.OrderByDescending(r => r.Name);
-                    break;
-            }
-
-            return await baseQuery.ToListAsync();
+            return await _educationContext.MaterialTypes.ToListAsync();
         }
 
         public async Task<MaterialType> GetSingleAsync(Func<MaterialType, bool> condition)

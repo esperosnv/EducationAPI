@@ -23,14 +23,11 @@ namespace EducationAPI.Services
             _logger = logger;
         }
 
-        public async Task<IEnumerable<MaterialTypeDTO>> GetAllMaterialsTypeAsync(string? searchPhrase, string? direction)
+        public async Task<IEnumerable<MaterialTypeDTO>> GetAllMaterialsTypeAsync()
         {
             _logger.LogInformation($"{DateTime.UtcNow} UTC - Request to get all materials type");
 
-            if (direction != null) direction = direction.ToLower();
-            if (direction != null && direction != "asc" && direction != "desc") throw new ResourceNotFoundException("Not correct direction");
-
-            var materialTypes = await _materialTypeRepository.GetAllAsync(searchPhrase, direction);
+            var materialTypes = await _materialTypeRepository.GetAllAsync(null, null);
             var materialTypesDTO = _mapper.Map<IEnumerable<MaterialTypeDTO>>(materialTypes);
             return materialTypesDTO;
         }

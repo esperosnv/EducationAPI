@@ -7,7 +7,7 @@ namespace EducationAPI.Services
 {
     public interface IMaterialTypeService
     {
-        Task<IEnumerable<MaterialTypeDTO>> GetAllMaterialsTypeAsync(string? searchPhrase, string? direction);
+        Task<IEnumerable<MaterialTypeDTO>> GetAllMaterialsTypeAsync();
         Task<MaterialTypeDTO> GetMaterialsTypeByIDAsync(int typeID);
     }
 }
