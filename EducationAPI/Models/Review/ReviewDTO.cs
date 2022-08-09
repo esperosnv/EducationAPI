@@ -1,13 +1,17 @@
 ﻿using EducationAPI.Models.Material;
-
+using System.ComponentModel.DataAnnotations;
 
 namespace EducationAPI.Models.Review
 {
     public class ReviewDTO
     {
+        [Required]
         public int ReviewID { get; set; }
+        [Required]
         public string Text { get; set; }
+        [Required]
         public string Material { get; set; }
+        [Required]
         public uint Rating { get; set; }
     }
 }
