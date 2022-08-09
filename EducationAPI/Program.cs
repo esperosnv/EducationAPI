@@ -38,7 +38,12 @@ builder.Services.AddScoped<IReviewServices, ReviewServices>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+
+{
+    c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory,
+        $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
+});
 
 
 
@@ -60,12 +65,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseHttpsRedirection();
-app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Education API");
-    c.RoutePrefix = string.Empty;
-});
+
 
 app.UseAuthorization();
 
