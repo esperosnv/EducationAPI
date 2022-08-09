@@ -31,7 +31,7 @@ namespace EducationAPI.Services
             _logger.LogInformation($"{DateTime.UtcNow} UTC - Request to get all authors");
 
             if (direction != null) direction = direction.ToLower();
-            if (direction != null && direction != "asc" && direction != "desc") throw new ResourceNotFoundException("Not correct direction");
+            if (direction != null && direction != "asc" && direction != "desc") throw new BadRequestExeption("Not correct direction");
 
             var authors = await _authorRepository.GetAllAsync(searchPhrase, direction);
             var authorsDTO = _mapper.Map<List<AuthorDTO>>(authors);

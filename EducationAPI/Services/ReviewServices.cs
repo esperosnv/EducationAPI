@@ -32,7 +32,7 @@ namespace EducationAPI.Services
             _logger.LogInformation($"{DateTime.UtcNow} UTC - Request to get all reviews");
 
             if (direction != null) direction = direction.ToLower();
-            if (direction != null && direction != "asc" && direction != "desc") throw new ResourceNotFoundException("Not correct direction");
+            if (direction != null && direction != "asc" && direction != "desc") throw new BadRequestExeption("Not correct direction");
 
             var reviews = await _reviewRepository.GetAllAsync(searchPhrase, direction);
             var reviewDTO = _mapper.Map<List<ReviewDTO>>(reviews);

@@ -29,6 +29,12 @@ namespace EducationAPI.Middleware
                 context.Response.StatusCode = 401;
                 await context.Response.WriteAsync(e.Message);
             }
+            catch (BadRequestExeption e)
+            {
+                _logger.LogError(e, e.Message);
+                context.Response.StatusCode = 400;
+                await context.Response.WriteAsync(e.Message);
+            }
             catch (Exception e)
             {
                 _logger.LogError(e, e.Message);

@@ -34,7 +34,7 @@ namespace EducationAPI.Services
             _logger.LogInformation($"{DateTime.UtcNow} UTC - Request to get all materials");
 
             if (direction != null) direction = direction.ToLower();
-            if (direction != null && direction != "asc" && direction != "desc") throw new ResourceNotFoundException("Not correct direction");
+            if (direction != null && direction != "asc" && direction != "desc") throw new BadRequestExeption("Not correct direction");
 
             var materials = await _materialRepository.GetAllAsync(searchPhrase, direction);
             var materialsDTO = _mapper.Map<List<MaterialDTO>>(materials);

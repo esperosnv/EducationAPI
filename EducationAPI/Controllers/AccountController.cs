@@ -29,7 +29,7 @@ namespace EducationAPI.Controllers
         }
 
         [HttpPost("register/admin")]
-      //  [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult RegisterAdmin([FromBody] RegisterUserDTO registerUserDTO)
         {
             _accountService.RegisterNewUser(registerUserDTO, Role.Admin);

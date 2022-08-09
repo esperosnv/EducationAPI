@@ -12,7 +12,7 @@ namespace EducationAPI.Controllers
 {
     [Route("api/types")]
     [ApiController]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
 
     public class MaterialTypeController  : ControllerBase
     {
@@ -30,8 +30,8 @@ namespace EducationAPI.Controllers
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(IEnumerable<MaterialTypeDTO>))]
-      //  [ResponseCache(Duration = 1200)]
-        //[Authorize(Roles = "Admin, User")]
+        [ResponseCache(Duration = 1200)]
+        [Authorize(Roles = "Admin, User")]
 
         public async Task<ActionResult<IEnumerable<MaterialTypeDTO>>> GetAllMaterialsTypeAsync()
         {
@@ -47,7 +47,7 @@ namespace EducationAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(MaterialTypeDTO))]
         [SwaggerResponse(StatusCodes.Status404NotFound)]
         [ResponseCache(Duration = 1200, VaryByQueryKeys = new[] { "typeID" })]
-        // [Authorize(Roles = "Admin, User")]
+        [Authorize(Roles = "Admin, User")]
         public async Task<ActionResult<MaterialTypeDTO>> GetMaterialsTypeAsync([FromRoute] int typeID)
         {
             var materialsType = await _materialTypeService.GetMaterialsTypeByIDAsync(typeID);
