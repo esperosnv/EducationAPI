@@ -10,8 +10,8 @@ namespace EducationAPI.Services
     {
         Task<IEnumerable<AuthorDTO>> GetAllAuthorsAsync(string? searchPhrase, string? direction);
         Task<AuthorDTO> GetAuthorByIDAsync(int authorID);
-        Task CreateAuthorAsync(CreateAuthorDTO createAuthorDTO);
+        Task<AuthorDTO> CreateAuthorAsync(CreateAuthorDTO createAuthorDTO);
         Task DeleteAuthorAsync(int authorID);
-        Task UpdateAuthorAsync(UpdateAuthorDTO updateAuthorDTO, int authorID);
+        Task<AuthorDTO> UpdateAuthorAsync(UpdateAuthorDTO updateAuthorDTO, int authorID);
     }
 }

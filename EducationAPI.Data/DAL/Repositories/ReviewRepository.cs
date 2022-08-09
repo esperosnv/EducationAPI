@@ -34,10 +34,10 @@ namespace EducationAPI.Data.DAL.Repositories
                                                 .Where(a => searchPhrase == null || a.Text.ToLower().Contains(searchPhrase.ToLower()));
             switch (direction)
             {
-                case "ASC":
+                case "asc":
                     baseQuery = baseQuery.OrderBy(r => r.Rating);
                     break;
-                case "DESC":
+                case "desc":
                     baseQuery = baseQuery.OrderByDescending(r => r.Rating);
                     break;
             }

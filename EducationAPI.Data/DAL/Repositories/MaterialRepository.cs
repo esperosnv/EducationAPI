@@ -36,10 +36,10 @@ namespace EducationAPI.Data.DAL.Repositories
 
             switch (direction)
             {
-                case "ASC":
+                case "asc":
                     baseQuery = baseQuery.OrderBy(r => r.Title);
                     break;
-                case "DESC":
+                case "desc":
                     baseQuery = baseQuery.OrderByDescending(r => r.Title);
                     break;
             }

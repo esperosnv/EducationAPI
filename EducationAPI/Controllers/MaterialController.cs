@@ -4,7 +4,8 @@ using EducationAPI.Models.Material;
 using EducationAPI.Data.Entities;
 using EducationAPI.Models;
 using EducationAPI.Data.Exceptions;
-
+using System.Net.Mime;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace EducationAPI.Controllers
 {
@@ -23,9 +24,10 @@ namespace EducationAPI.Controllers
         /// </summary> 
 
         [HttpGet]
+        [Produces(MediaTypeNames.Application.Json)]
+        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(IEnumerable<MaterialDTO>))]
         public async Task<ActionResult<IEnumerable<MaterialDTO>>> GetAllAuthorsAsync([FromQuery] string? searchPhrase, string? direction)
         {
-            if (direction != null && direction != "ASC" && direction != "DESC") throw new ResourceNotFoundException("Not correct direction");
             var materials = await _materialService.GetAllMaterialsAsync(searchPhrase, direction);
             return Ok(materials);
         }
@@ -35,6 +37,9 @@ namespace EducationAPI.Controllers
         /// Get a material by id
         /// </summary> 
         [HttpGet("{materialID}")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(MaterialDTO))]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<MaterialDTO>> GetMaterialAsync([FromRoute] int materialID)
         {
             var material = await _materialService.GetMaterialByIDAsync(materialID);
@@ -45,16 +50,22 @@ namespace EducationAPI.Controllers
         /// Add new author 
         /// </summary>
         [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [SwaggerResponse(StatusCodes.Status201Created, Type = typeof(MaterialDTO))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> CreateMaterialAsync([FromBody] CreateMaterialDTO createMaterialDTO)
         {
-            await _materialService.CreateMaterialAsync(createMaterialDTO);
-            return Ok();
+            var newMaterialDTO = await _materialService.CreateMaterialAsync(createMaterialDTO);
+            return Created($"{Request.Scheme}://{Request.Host}{Request.Path}/{newMaterialDTO.MaterialID}", newMaterialDTO);
         }
 
         /// <summary>
         /// Delete a material by id
         /// </summary> 
         [HttpDelete("{materialID}")]
+        [SwaggerResponse(StatusCodes.Status204NoContent)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> DeleteMaterialAsync([FromRoute] int materialID)
         {
             await _materialService.DeleteMaterialAsync(materialID);
@@ -66,10 +77,15 @@ namespace EducationAPI.Controllers
         /// Update a material by id
         /// </summary> 
         [HttpPatch("{materialID}")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(MaterialDTO))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
+
         public async Task<ActionResult> UpdateMaterialAsync([FromBody] UpdateMaterialDTO updateMaterialDTO, [FromRoute] int materialID)
         {
-            await _materialService.UpdateMaterialAsync(updateMaterialDTO, materialID);
-            return Ok();
+            var updateMaterial = await _materialService.UpdateMaterialAsync(updateMaterialDTO, materialID);
+            return Ok(updateMaterial);
         }
 
     }

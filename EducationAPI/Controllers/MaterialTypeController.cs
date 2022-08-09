@@ -4,8 +4,8 @@ using EducationAPI.Models.MaterialType;
 using EducationAPI.Data.Entities;
 using EducationAPI.Models;
 using EducationAPI.Data.Exceptions;
-
-
+using System.Net.Mime;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace EducationAPI.Controllers
 {
@@ -25,9 +25,10 @@ namespace EducationAPI.Controllers
         /// </summary> 
        
         [HttpGet]
+        [Produces(MediaTypeNames.Application.Json)]
+        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(IEnumerable<MaterialTypeDTO>))]
         public async Task<ActionResult<IEnumerable<MaterialTypeDTO>>> GetAllMaterialsTypeAsync([FromQuery] string? searchPhrase, string? direction)
         {
-            if (direction != null && direction != "ASC" && direction != "DESC") throw new ResourceNotFoundException("Not correct direction");
             var materialsTypes = await _materialTypeService.GetAllMaterialsTypeAsync(searchPhrase, direction);
             return Ok(materialsTypes);
         }
@@ -36,6 +37,9 @@ namespace EducationAPI.Controllers
         /// Get a type of materials by id
         /// </summary> 
         [HttpGet("{typeID}")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(MaterialTypeDTO))]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<MaterialTypeDTO>> GetMaterialsTypeAsync([FromRoute] int typeID)
         {
             var materialsType = await _materialTypeService.GetMaterialsTypeByIDAsync(typeID);

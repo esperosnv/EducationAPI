@@ -26,6 +26,9 @@ namespace EducationAPI.Services
 
         public async Task<IEnumerable<ReviewDTO>> GetAllReviewAsync(string? searchPhrase, string? direction)
         {
+            if (direction != null) direction = direction.ToLower();
+            if (direction != null && direction != "asc" && direction != "desc") throw new ResourceNotFoundException("Not correct direction");
+
             var reviews = await _reviewRepository.GetAllAsync(searchPhrase, direction);
             var reviewDTO = _mapper.Map<List<ReviewDTO>>(reviews);
             return reviewDTO;
@@ -40,7 +43,7 @@ namespace EducationAPI.Services
             return reviewDTO;
         }
 
-        public async Task CreateReviewAsync(CreateReveiwDTO createReveiwDTO)
+        public async Task<ReviewDTO> CreateReviewAsync(CreateReveiwDTO createReveiwDTO)
         {
             var newReview = _mapper.Map<Review>(createReveiwDTO);
 
@@ -49,6 +52,7 @@ namespace EducationAPI.Services
 
             _reviewRepository.Add(newReview);
             await _reviewRepository.SaveAsync();
+            return await GetReviewByIDAsync(newReview.ReviewID);
         }
 
         public async Task DeleteReviewAsync(int reviewID)
@@ -60,7 +64,7 @@ namespace EducationAPI.Services
             await _reviewRepository.SaveAsync();
         }
 
-        public async Task UpdateReviewAsync(UpdateReviewDTO updateReviewDTO, int reviewID)
+        public async Task<ReviewDTO> UpdateReviewAsync(UpdateReviewDTO updateReviewDTO, int reviewID)
         {
             var review = await _reviewRepository.GetSingleAsync(A => A.ReviewID == reviewID);
             if (review is null) throw new ResourceNotFoundException($"Review with ID {reviewID} not found");
@@ -76,6 +80,7 @@ namespace EducationAPI.Services
             }
 
             await _reviewRepository.SaveAsync();
+            return await GetReviewByIDAsync(reviewID);
         }
 
 

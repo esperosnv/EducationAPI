@@ -27,6 +27,9 @@ namespace EducationAPI.Services
 
         public async Task<IEnumerable<MaterialDTO>> GetAllMaterialsAsync(string? searchPhrase, string? direction)
         {
+            if (direction != null) direction = direction.ToLower();
+            if (direction != null && direction != "asc" && direction != "desc") throw new ResourceNotFoundException("Not correct direction");
+
             var materials = await _materialRepository.GetAllAsync(searchPhrase, direction);
             var materialsDTO = _mapper.Map<List<MaterialDTO>>(materials);
             return materialsDTO;
@@ -41,7 +44,7 @@ namespace EducationAPI.Services
             return materialDTO;
         }
 
-        public async Task CreateMaterialAsync(CreateMaterialDTO createMaterialDTO)
+        public async Task<MaterialDTO> CreateMaterialAsync(CreateMaterialDTO createMaterialDTO)
         {
             var newMaterial = _mapper.Map<Material>(createMaterialDTO);
 
@@ -53,6 +56,7 @@ namespace EducationAPI.Services
 
             _materialRepository.Add(newMaterial);
             await _materialRepository.SaveAsync();
+            return await GetMaterialByIDAsync(newMaterial.MaterialID);
         }
 
         public async Task DeleteMaterialAsync(int materialID)
@@ -64,7 +68,7 @@ namespace EducationAPI.Services
             await _materialRepository.SaveAsync();
         }
 
-        public async Task UpdateMaterialAsync(UpdateMaterialDTO updateMaterialDTO, int materialID)
+        public async Task<MaterialDTO> UpdateMaterialAsync(UpdateMaterialDTO updateMaterialDTO, int materialID)
         {
 
             var material = await _materialRepository.GetSingleAsync(m => m.MaterialID == materialID);
@@ -88,6 +92,7 @@ namespace EducationAPI.Services
             if (updateMaterialDTO.PublishingDate != null) material.PublishingDate = (DateTime)updateMaterialDTO.PublishingDate;
 
             await _materialRepository.SaveAsync();
+            return await GetMaterialByIDAsync(materialID);
         }
 
 

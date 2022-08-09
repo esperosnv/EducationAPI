@@ -3,7 +3,8 @@ using EducationAPI.Services;
 using EducationAPI.Models.Author;
 using EducationAPI.Data.Exceptions;
 using EducationAPI.Data.Exceptions;
-
+using Swashbuckle.AspNetCore.Annotations;
+using System.Net.Mime;
 
 namespace EducationAPI.Controllers
 {
@@ -22,9 +23,11 @@ namespace EducationAPI.Controllers
         /// </summary> 
 
         [HttpGet]
+        [Produces(MediaTypeNames.Application.Json)]
+        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(IEnumerable<AuthorDTO>))]
+
         public async Task<ActionResult<IEnumerable<AuthorDTO>>> GetAllAuthorsAsync([FromQuery] string? searchPhrase, string? direction)
         {
-            if (direction != null && direction != "ASC" && direction != "DESC") throw new ResourceNotFoundException("Not correct direction");
             var authors = await _authorService.GetAllAuthorsAsync(searchPhrase, direction);
             return Ok(authors);
         }
@@ -33,6 +36,10 @@ namespace EducationAPI.Controllers
         /// Get an author by id
         /// </summary> 
         [HttpGet("{authorID}")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(AuthorDTO))]
+        [SwaggerResponse(StatusCodes.Status404NotFound)]
+
         public async Task<ActionResult<AuthorDTO>> GetAuthorAsync([FromRoute] int authorID)
         {
             var author = await _authorService.GetAuthorByIDAsync(authorID);
@@ -43,10 +50,15 @@ namespace EducationAPI.Controllers
         /// Add new author 
         /// </summary>
         [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [SwaggerResponse(StatusCodes.Status201Created, Type = typeof(AuthorDTO))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
+
         public async Task<ActionResult> CreateAuthorAsync([FromBody] CreateAuthorDTO createAuthorDTO)
         {
-            await _authorService.CreateAuthorAsync(createAuthorDTO);
-            return Ok();
+            var newAuthorDTO = await _authorService.CreateAuthorAsync(createAuthorDTO);
+            return Created($"{Request.Scheme}://{Request.Host}{Request.Path}/{newAuthorDTO.AuthorID}", newAuthorDTO);
         }
 
 
@@ -54,6 +66,9 @@ namespace EducationAPI.Controllers
         /// Delete an author by id
         /// </summary> 
         [HttpDelete("{authorID}")]
+        [SwaggerResponse(StatusCodes.Status204NoContent)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
+
         public async Task<ActionResult> DeleteAuthorAsync([FromRoute] int authorID)
         {
             await _authorService.DeleteAuthorAsync(authorID);
@@ -65,11 +80,15 @@ namespace EducationAPI.Controllers
         /// Update an author by id
         /// </summary> 
         [HttpPatch("{authorID}")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(AuthorDTO))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
 
         public async Task<ActionResult> UpdateAuthorAsync([FromBody] UpdateAuthorDTO updateAuthorDTO, [FromRoute] int authorID)
         {
-            await _authorService.UpdateAuthorAsync(updateAuthorDTO, authorID);
-            return Ok();
+            var updateAuthor = await _authorService.UpdateAuthorAsync(updateAuthorDTO, authorID);
+            return Ok(updateAuthor);
         }
 
     }

@@ -22,6 +22,9 @@ namespace EducationAPI.Services
 
         public async Task<IEnumerable<MaterialTypeDTO>> GetAllMaterialsTypeAsync(string? searchPhrase, string? direction)
         {
+            if (direction != null) direction = direction.ToLower();
+            if (direction != null && direction != "asc" && direction != "desc") throw new ResourceNotFoundException("Not correct direction");
+
             var materialTypes = await _materialTypeRepository.GetAllAsync(searchPhrase, direction);
             var materialTypesDTO = _mapper.Map<IEnumerable<MaterialTypeDTO>>(materialTypes);
             return materialTypesDTO;
