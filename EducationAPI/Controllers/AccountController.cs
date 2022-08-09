@@ -4,7 +4,8 @@ using EducationAPI.Models.User;
 using EducationAPI.Data.Exceptions;
 using EducationAPI.Data.Exceptions;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Net.Mime;
+using EducationAPI.Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EducationAPI.Controllers
 {
@@ -23,7 +24,15 @@ namespace EducationAPI.Controllers
         [HttpPost("register")]
         public ActionResult RegisterUser([FromBody] RegisterUserDTO registerUserDTO)
         {
-            _accountService.RegisterNewUser(registerUserDTO);
+            _accountService.RegisterNewUser(registerUserDTO, Role.User);
+            return Ok();
+        }
+
+        [HttpPost("register/admin")]
+        [Authorize(Roles = "Admin")]
+        public ActionResult RegisterAdmin([FromBody] RegisterUserDTO registerUserDTO)
+        {
+            _accountService.RegisterNewUser(registerUserDTO, Role.Admin);
             return Ok();
         }
 
@@ -31,7 +40,6 @@ namespace EducationAPI.Controllers
         public async Task<ActionResult> Login([FromBody] LoginDTO loginDTO)
         {
             string token = await _accountService.GenerateJWT(loginDTO);
-
             return Ok(token);
         }
 

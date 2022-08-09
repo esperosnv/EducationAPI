@@ -30,12 +30,12 @@ namespace EducationAPI.Services
         }
 
 
-        public async Task RegisterNewUser(RegisterUserDTO registerUserDTO)
+        public async Task RegisterNewUser(RegisterUserDTO registerUserDTO, Role role)
         {
             var user = _mapper.Map<User>(registerUserDTO);
             var hasherPassword = _passwordHasher.HashPassword(user, registerUserDTO.Password);
             user.PasswordHash = hasherPassword;
-             user.Role = Role.User;
+             user.Role = role;
             _userRepository.Add(user);
             await _userRepository.SaveAsync();
         }
