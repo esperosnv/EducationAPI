@@ -23,6 +23,12 @@ namespace EducationAPI.Middleware
                 context.Response.StatusCode = 404;
                 await context.Response.WriteAsync(e.Message);
             }
+            catch (UnauthorizedException e)
+            {
+                _logger.LogError(e, e.Message);
+                context.Response.StatusCode = 401;
+                await context.Response.WriteAsync(e.Message);
+            }
             catch (Exception e)
             {
                 _logger.LogError(e, e.Message);

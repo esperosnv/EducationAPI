@@ -6,11 +6,14 @@ using EducationAPI.Models;
 using EducationAPI.Data.Exceptions;
 using System.Net.Mime;
 using Swashbuckle.AspNetCore.Annotations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EducationAPI.Controllers
 {
     [Route("api/materials")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
+
     public class MaterialController : ControllerBase
     {
         private readonly IMaterialService _materialService;

@@ -35,7 +35,7 @@ namespace EducationAPI.Services
             var user = _mapper.Map<User>(registerUserDTO);
             var hasherPassword = _passwordHasher.HashPassword(user, registerUserDTO.Password);
             user.PasswordHash = hasherPassword;
-           // user.Role = Role.User;
+             user.Role = Role.User;
             _userRepository.Add(user);
             await _userRepository.SaveAsync();
         }
@@ -44,16 +44,15 @@ namespace EducationAPI.Services
         public async Task<string> GenerateJWT(LoginDTO dto)
         {
             var user = await _userRepository.GetSingleAsync(u => u.Login == dto.Login);
+            if (user == null) throw new UnauthorizedException("Invalid login");
 
             var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, dto.Password);
-            if (result == PasswordVerificationResult.Failed) throw new ResourceNotFoundException("Invalid password");
+            if (result == PasswordVerificationResult.Failed) throw new UnauthorizedException("Invalid password");
 
             var claims = new List<Claim>()
             {
-              //  new Claim(ClaimTypes.Name, user.Name),
-               // new Claim(ClaimTypes.Role, user.Role.ToString())
-
-                // МОЖНО ДОПИСАТЬ ЕЩЕ
+                new Claim(ClaimTypes.Name, user.Login),
+                new Claim(ClaimTypes.Role, user.Role.ToString())
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_authenticationSettings.JwtKey));

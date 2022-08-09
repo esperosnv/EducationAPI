@@ -5,11 +5,13 @@ using EducationAPI.Data.Exceptions;
 using EducationAPI.Data.Exceptions;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EducationAPI.Controllers
 {
     [Route("api/authors")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class AuthorController : ControllerBase
     {
         private readonly IAuthorService _authorService;

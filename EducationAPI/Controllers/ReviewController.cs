@@ -4,11 +4,14 @@ using EducationAPI.Models.Review;
 using EducationAPI.Data.Exceptions;
 using System.Net.Mime;
 using Swashbuckle.AspNetCore.Annotations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EducationAPI.Controllers
 {
     [Route("api/reviews")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
+
     public class ReviewController : ControllerBase
     {
         private readonly IReviewServices _reviewServices;

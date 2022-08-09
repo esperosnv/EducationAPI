@@ -28,11 +28,6 @@ namespace EducationAPI.Data.DAL.Repositories
             _educationContext.Users.Remove(entity);
         }
 
-        //public async Task<List<User>> GetAllAsync()
-        //{
-        //    return await _educationContext.Users.ToListAsync();
-        //}
-
         public async Task<List<User>> GetAllAsync(string? searchPhrase, string? direction)
         {
             return await _educationContext.Users.ToListAsync();
@@ -41,8 +36,6 @@ namespace EducationAPI.Data.DAL.Repositories
         public async Task<User> GetSingleAsync(Func<User, bool> condition)
         {
             var user = await Task.FromResult(_educationContext.Users.FirstOrDefault(condition));
-            if (user == null) throw new ResourceNotFoundException($"User with this name was not found.");
-
             return user;
         }
 

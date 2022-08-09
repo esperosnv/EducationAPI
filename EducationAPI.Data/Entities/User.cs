@@ -15,6 +15,7 @@ namespace EducationAPI.Data.Entities
         public string Login { get; set; }
         [Required]
         public string PasswordHash { get; set; }
-       // public Role Role { get; set; }
+        [Required]
+        public Role Role { get; set; }
     }
 }
