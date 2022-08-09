@@ -12,10 +12,9 @@ namespace EducationAPI.Data.Context
     {
         public DbSet<Author> Authors { get; set; } = null!;
         public DbSet<Material> Materials { get; set; } = null!;
-
         public DbSet<Review> Reviews { get; set; } = null!;
-
         public DbSet<MaterialType> MaterialTypes { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
