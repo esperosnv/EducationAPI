@@ -15,18 +15,24 @@ namespace EducationAPI.Services
         private readonly IBaseRepository<Material> _materialRepository;
         private readonly IBaseRepository<MaterialType> _materialTypeRepository;
         private readonly IBaseRepository<Author> _authorRepository;
+        private readonly ILogger<MaterialService> _logger;
 
 
-        public MaterialService(IMapper mapper, IBaseRepository<Material> materialRepository, IBaseRepository<MaterialType> materialTypeRepository, IBaseRepository<Author> authorRepository)
+
+        public MaterialService(IMapper mapper, IBaseRepository<Material> materialRepository, IBaseRepository<MaterialType> materialTypeRepository,
+                            IBaseRepository<Author> authorRepository, ILogger<MaterialService> logger)
         {
             _mapper = mapper;
             _materialRepository = materialRepository;
             _materialTypeRepository = materialTypeRepository;
             _authorRepository = authorRepository;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<MaterialDTO>> GetAllMaterialsAsync(string? searchPhrase, string? direction)
         {
+            _logger.LogInformation($"{DateTime.UtcNow} UTC - Request to get all materials");
+
             if (direction != null) direction = direction.ToLower();
             if (direction != null && direction != "asc" && direction != "desc") throw new ResourceNotFoundException("Not correct direction");
 
@@ -37,6 +43,8 @@ namespace EducationAPI.Services
 
         public async Task<MaterialDTO> GetMaterialByIDAsync(int materialID)
         {
+            _logger.LogInformation($"{DateTime.UtcNow} UTC - Request to get material with id {materialID}");
+
             var material = await _materialRepository.GetSingleAsync(m => m.MaterialID == materialID);
             if (material is null) throw new ResourceNotFoundException($"Material with ID {materialID} not found");
 
@@ -46,6 +54,8 @@ namespace EducationAPI.Services
 
         public async Task<MaterialDTO> CreateMaterialAsync(CreateMaterialDTO createMaterialDTO)
         {
+            _logger.LogInformation($"{DateTime.UtcNow} UTC - Request to create a new material");
+
             var newMaterial = _mapper.Map<Material>(createMaterialDTO);
 
             var author = await _authorRepository.GetSingleAsync(A => A.AuthorID == createMaterialDTO.AuthorID);
@@ -61,6 +71,8 @@ namespace EducationAPI.Services
 
         public async Task DeleteMaterialAsync(int materialID)
         {
+            _logger.LogInformation($"{DateTime.UtcNow} UTC - Request to delete a material with id {materialID}");
+
             var material = await _materialRepository.GetSingleAsync(m => m.MaterialID == materialID);
             if (material is null) throw new ResourceNotFoundException($"Material with ID {materialID} not found");
 
@@ -70,6 +82,7 @@ namespace EducationAPI.Services
 
         public async Task<MaterialDTO> UpdateMaterialAsync(UpdateMaterialDTO updateMaterialDTO, int materialID)
         {
+            _logger.LogInformation($"{DateTime.UtcNow} UTC - Patch request to update material with id {materialID}");
 
             var material = await _materialRepository.GetSingleAsync(m => m.MaterialID == materialID);
             if (material is null) throw new ResourceNotFoundException($"Material with ID {materialID} not found"); 
@@ -97,6 +110,7 @@ namespace EducationAPI.Services
 
         public async Task<MaterialDTO> PutMaterialAsync(PutMaterialsDTO putMaterialsDTO, int materialID)
         {
+            _logger.LogInformation($"{DateTime.UtcNow} UTC - Put request to update material with id {materialID}");
 
             var material = await _materialRepository.GetSingleAsync(m => m.MaterialID == materialID);
             if (material is null) throw new ResourceNotFoundException($"Material with ID {materialID} not found");

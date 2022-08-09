@@ -15,17 +15,22 @@ namespace EducationAPI.Services
         private readonly IMapper _mapper;
         private readonly IBaseRepository<Review> _reviewRepository;
         private readonly IBaseRepository<Material> _materialRepository;
+        private readonly ILogger<ReviewServices> _logger;
 
 
-        public ReviewServices(IMapper mapper, IBaseRepository<Review> reviewRepository, IBaseRepository<Material> materialRepository)
+
+        public ReviewServices(IMapper mapper, IBaseRepository<Review> reviewRepository, IBaseRepository<Material> materialRepository, ILogger<ReviewServices> logger)
         {
             _mapper = mapper;
             _reviewRepository = reviewRepository;
             _materialRepository = materialRepository;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<ReviewDTO>> GetAllReviewAsync(string? searchPhrase, string? direction)
         {
+            _logger.LogInformation($"{DateTime.UtcNow} UTC - Request to get all reviews");
+
             if (direction != null) direction = direction.ToLower();
             if (direction != null && direction != "asc" && direction != "desc") throw new ResourceNotFoundException("Not correct direction");
 
@@ -36,6 +41,8 @@ namespace EducationAPI.Services
 
         public async Task<ReviewDTO> GetReviewByIDAsync(int reviewID)
         {
+            _logger.LogInformation($"{DateTime.UtcNow} UTC - Request to get review with id {reviewID}");
+
             var review = await _reviewRepository.GetSingleAsync(A => A.ReviewID == reviewID);
             if (review is null) throw new ResourceNotFoundException($"Review with ID {reviewID} not found");
 
@@ -45,6 +52,8 @@ namespace EducationAPI.Services
 
         public async Task<ReviewDTO> CreateReviewAsync(CreateReveiwDTO createReveiwDTO)
         {
+            _logger.LogInformation($"{DateTime.UtcNow} UTC - Request to create a new review");
+
             var newReview = _mapper.Map<Review>(createReveiwDTO);
 
             var material = await _materialRepository.GetSingleAsync(m => m.MaterialID == createReveiwDTO.MaterialID);
@@ -57,6 +66,8 @@ namespace EducationAPI.Services
 
         public async Task DeleteReviewAsync(int reviewID)
         {
+            _logger.LogInformation($"{DateTime.UtcNow} UTC - Request to delete a review with id {reviewID}");
+
             var review = await _reviewRepository.GetSingleAsync(A => A.ReviewID == reviewID);
             if (review is null) throw new ResourceNotFoundException($"Review with ID {reviewID} not found");
 
@@ -66,6 +77,8 @@ namespace EducationAPI.Services
 
         public async Task<ReviewDTO> UpdateReviewAsync(UpdateReviewDTO updateReviewDTO, int reviewID)
         {
+            _logger.LogInformation($"{DateTime.UtcNow} UTC - Patch request to update review with id {reviewID}");
+
             var review = await _reviewRepository.GetSingleAsync(A => A.ReviewID == reviewID);
             if (review is null) throw new ResourceNotFoundException($"Review with ID {reviewID} not found");
 
@@ -87,9 +100,10 @@ namespace EducationAPI.Services
 
         public async Task<ReviewDTO> PutReviewAsync(PutReviewDTO putReviewDTO, int reviewID)
         {
+            _logger.LogInformation($"{DateTime.UtcNow} UTC - Put request to update review with id {reviewID}");
+
             var review = await _reviewRepository.GetSingleAsync(A => A.ReviewID == reviewID);
             if (review is null) throw new ResourceNotFoundException($"Review with ID {reviewID} not found");
-
 
             review.Text = putReviewDTO.Text;
             review.Rating = (uint)putReviewDTO.Rating;
