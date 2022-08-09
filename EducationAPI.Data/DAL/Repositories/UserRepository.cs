@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using EducationAPI.Data.Context;
-using EducationAPI.Data.Exceptions;
+﻿using EducationAPI.Data.Context;
 using EducationAPI.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using EducationAPI.Data.DAL.Interfaces;
@@ -35,8 +30,7 @@ namespace EducationAPI.Data.DAL.Repositories
 
         public async Task<User> GetSingleAsync(Func<User, bool> condition)
         {
-            var user = await Task.FromResult(_educationContext.Users.FirstOrDefault(condition));
-            return user;
+            return await Task.FromResult(_educationContext.Users.FirstOrDefault(condition));
         }
 
         public async Task SaveAsync()

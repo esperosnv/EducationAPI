@@ -1,9 +1,4 @@
 ﻿using EducationAPI.Models.Author;
-using EducationAPI.Models;
-using EducationAPI.Data.Entities;
-using EducationAPI.Models.Material;
-
-
 
 namespace EducationAPI.Services
 {
@@ -15,7 +10,6 @@ namespace EducationAPI.Services
         Task DeleteAuthorAsync(int authorID);
         Task<AuthorDTO> UpdateAuthorAsync(UpdateAuthorDTO updateAuthorDTO, int authorID);
         Task<AuthorDTO> PutAuthorAsync(PutAuthorDTO putAuthorDTO, int authorID);
-        Task<AuthorDTO> GetProductiveAuthorsAsync();
-        //Task<IEnumerable<MaterialDTO>> GetTopMaterialsFromAuthorAsync(int authorID);
+        Task<AuthorDTO> GetMostProductiveAuthorsAsync();
     }
 }

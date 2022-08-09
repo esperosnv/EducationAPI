@@ -22,6 +22,5 @@ namespace EducationAPI.Models.Material
         public IEnumerable<ReviewDTO> Reviews { get; set; }
         [Required]
         public DateTime PublishingDate { get; set; }
-        public double AverageRating { get; set; }
     }
 }

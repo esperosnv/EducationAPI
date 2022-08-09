@@ -3,9 +3,6 @@ using EducationAPI.Data.DAL.Interfaces;
 using EducationAPI.Data.Entities;
 using EducationAPI.Models.MaterialType;
 using EducationAPI.Data.Exceptions;
-using EducationAPI.Models;
-using EducationAPI.Data.Entities;
-
 
 namespace EducationAPI.Services
 {

@@ -1,14 +1,8 @@
 ﻿using AutoMapper;
 using EducationAPI.Data.DAL.Interfaces;
 using EducationAPI.Data.Entities;
-using EducationAPI.Models.MaterialType;
 using EducationAPI.Data.Exceptions;
 using EducationAPI.Models.Author;
-using EducationAPI.Models;
-using EducationAPI.Data.Entities;
-using EducationAPI.Models.Material;
-
-
 
 namespace EducationAPI.Services
 {
@@ -100,8 +94,10 @@ namespace EducationAPI.Services
             return await GetAuthorByIDAsync(authorID);
         }
 
-        public async Task<AuthorDTO> GetProductiveAuthorsAsync()
+        public async Task<AuthorDTO> GetMostProductiveAuthorsAsync()
         {
+            _logger.LogInformation($"{DateTime.UtcNow} UTC - Get most productive author");
+
             var authors = await _authorRepository.GetAllAsync(null, null);
             var authorsDesc = authors.OrderByDescending(r => r.Materials.Count()).First();
 
@@ -109,14 +105,5 @@ namespace EducationAPI.Services
             return authorDTO;
         }
 
-
-            //public async Task<IEnumerable<MaterialDTO>> GetTopMaterialsFromAuthorAsync(int authorID)
-            //{
-            //    var author = await _authorRepository.GetSingleAsync(A => A.AuthorID == authorID);
-            //    var materials = author.Materials;
-            //    .Where(m => m.Reviews.Average(r => r.Rating) > 0);
-            //    var materialsDTO = _mapper.Map<List<MaterialDTO>>(materials);
-            //    return materialsDTO;
-            //}
-        }
+    }
 }

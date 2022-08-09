@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using EducationAPI.Data.DAL.Interfaces;
 using EducationAPI.Data.Entities;
-using EducationAPI.Models.MaterialType;
 using EducationAPI.Data.Exceptions;
-using EducationAPI.Data.Entities;
 using EducationAPI.Models.Review;
-using EducationAPI.Models;
 
 
 namespace EducationAPI.Services
@@ -16,7 +13,6 @@ namespace EducationAPI.Services
         private readonly IBaseRepository<Review> _reviewRepository;
         private readonly IBaseRepository<Material> _materialRepository;
         private readonly ILogger<ReviewServices> _logger;
-
 
 
         public ReviewServices(IMapper mapper, IBaseRepository<Review> reviewRepository, IBaseRepository<Material> materialRepository, ILogger<ReviewServices> logger)
@@ -116,7 +112,5 @@ namespace EducationAPI.Services
             await _reviewRepository.SaveAsync();
             return await GetReviewByIDAsync(reviewID);
         }
-
-
     }
 }

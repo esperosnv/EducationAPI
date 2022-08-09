@@ -3,9 +3,6 @@ using EducationAPI.Data.DAL.Interfaces;
 using EducationAPI.Data.Entities;
 using EducationAPI.Models.Material;
 using EducationAPI.Data.Exceptions;
-using EducationAPI.Models.Author;
-using EducationAPI.Data.Entities;
-using EducationAPI.Models;
 
 namespace EducationAPI.Services
 {
@@ -134,6 +131,8 @@ namespace EducationAPI.Services
 
         public async Task<IEnumerable<MaterialDTO>> GetMaterialsFromSelectedType(string typeName)
         {
+            _logger.LogInformation($"{DateTime.UtcNow} UTC - Get materials by {typeName} type");
+
             var materials = await _materialRepository.GetAllAsync(null, null);
             var selectedMaterials = materials.Where(m => m.MaterialType.Name.ToLower() == typeName.ToLower()).ToList();
             var materialsDTO = _mapper.Map<List<MaterialDTO>>(selectedMaterials);

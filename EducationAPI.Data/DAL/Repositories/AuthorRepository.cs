@@ -2,9 +2,6 @@
 using EducationAPI.Data.DAL.Interfaces;
 using EducationAPI.Data.Context;
 using Microsoft.EntityFrameworkCore;
-using EducationAPI.Data.Exceptions;
-
-
 
 namespace EducationAPI.Data.DAL.Repositories
 {

@@ -1,5 +1,4 @@
-﻿using EducationAPI.Models.Material;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace EducationAPI.Models.Review
 {

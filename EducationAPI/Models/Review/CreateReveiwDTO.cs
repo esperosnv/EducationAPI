@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-
 namespace EducationAPI.Models.Review
 {
     public class CreateReveiwDTO

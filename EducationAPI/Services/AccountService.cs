@@ -28,10 +28,11 @@ namespace EducationAPI.Services
             _mapper = mapper;
             _authenticationSettings = authenticationSettings;
         }
-
-
+ 
         public async Task RegisterNewUser(RegisterUserDTO registerUserDTO, Role role)
         {
+            _logger.LogInformation($"{DateTime.UtcNow} UTC - Request to register new user");
+
             var user = _mapper.Map<User>(registerUserDTO);
             var hasherPassword = _passwordHasher.HashPassword(user, registerUserDTO.Password);
             user.PasswordHash = hasherPassword;
@@ -43,6 +44,8 @@ namespace EducationAPI.Services
 
         public async Task<string> GenerateJWT(LoginDTO dto)
         {
+            _logger.LogInformation($"{DateTime.UtcNow} UTC - Request to log in a user");
+
             var user = await _userRepository.GetSingleAsync(u => u.Login == dto.Login);
             if (user == null) throw new UnauthorizedException("Invalid login");
 
@@ -63,7 +66,6 @@ namespace EducationAPI.Services
                                                   claims, expires: expires, signingCredentials: cred);
 
             var tokenHandler = new JwtSecurityTokenHandler();
-
 
             return tokenHandler.WriteToken(token);
         }

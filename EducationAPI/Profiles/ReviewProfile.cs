@@ -12,7 +12,6 @@ namespace EducationAPI.Profiles
                     .ForMember(d => d.Material, a => a.MapFrom(m => m.Material.Title));
 
             CreateMap<CreateReveiwDTO, Review>();
-
         }
     }
 }

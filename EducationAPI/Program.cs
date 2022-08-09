@@ -2,8 +2,6 @@ using EducationAPI.Data.Context;
 using EducationAPI.Data.DAL.Interfaces;
 using EducationAPI.Data.Entities;
 using EducationAPI.Data.DAL.Repositories;
-using AutoMapper;
-using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using System.Text;

@@ -1,5 +1,4 @@
-﻿using EducationAPI.Models.Review;
-
+﻿
 namespace EducationAPI.Models.Material
 {
     public class UpdateMaterialDTO

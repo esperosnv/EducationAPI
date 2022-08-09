@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using EducationAPI.Services;
 using EducationAPI.Models.User;
-using EducationAPI.Data.Exceptions;
-using EducationAPI.Data.Exceptions;
 using Swashbuckle.AspNetCore.Annotations;
 using EducationAPI.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
+using System.Net.Mime;
 
 namespace EducationAPI.Controllers
 {
@@ -21,22 +20,41 @@ namespace EducationAPI.Controllers
         {
             _accountService = accountService;
         }
+
+        /// <summary>
+        /// Register a new user
+        /// </summary> 
         [HttpPost("register")]
-        public ActionResult RegisterUser([FromBody] RegisterUserDTO registerUserDTO)
+        [Consumes(MediaTypeNames.Application.Json)]
+        [SwaggerResponse(StatusCodes.Status201Created)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> RegisterUser([FromBody] RegisterUserDTO registerUserDTO)
         {
-            _accountService.RegisterNewUser(registerUserDTO, Role.User);
+            await _accountService.RegisterNewUser(registerUserDTO, Role.User);
             return Ok();
         }
 
+        /// <summary>
+        /// Register a new admin by existing admin
+        /// </summary>
         [HttpPost("register/admin")]
         [Authorize(Roles = "Admin")]
-        public ActionResult RegisterAdmin([FromBody] RegisterUserDTO registerUserDTO)
+        [Consumes(MediaTypeNames.Application.Json)]
+        [SwaggerResponse(StatusCodes.Status201Created)]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> RegisterAdmin([FromBody] RegisterUserDTO registerUserDTO)
         {
-            _accountService.RegisterNewUser(registerUserDTO, Role.Admin);
+            await _accountService.RegisterNewUser(registerUserDTO, Role.Admin);
             return Ok();
         }
-
+        /// <summary>
+        /// Login user and admin
+        /// </summary>
         [HttpPost("login")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Text.Plain)]
+        [SwaggerResponse(StatusCodes.Status201Created, Type = typeof(string))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult> Login([FromBody] LoginDTO loginDTO)
         {
             string token = await _accountService.GenerateJWT(loginDTO);

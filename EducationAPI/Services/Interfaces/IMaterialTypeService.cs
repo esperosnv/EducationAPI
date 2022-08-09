@@ -1,7 +1,4 @@
 ﻿using EducationAPI.Models.MaterialType;
-using EducationAPI.Models;
-using EducationAPI.Data.Entities;
-
 
 namespace EducationAPI.Services
 {

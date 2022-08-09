@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using EducationAPI.Services;
 using EducationAPI.Models.Review;
-using EducationAPI.Data.Exceptions;
 using System.Net.Mime;
 using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.Authorization;
@@ -10,7 +9,7 @@ namespace EducationAPI.Controllers
 {
     [Route("api/reviews")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
 
     public class ReviewController : ControllerBase
     {
@@ -41,7 +40,6 @@ namespace EducationAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(ReviewDTO))]
         [SwaggerResponse(StatusCodes.Status404NotFound)]
         [Authorize(Roles = "Admin, User")]
-
         public async Task<ActionResult<ReviewDTO>> GetReviewAsync([FromRoute] int reviewID)
         {
             var review = await _reviewServices.GetReviewByIDAsync(reviewID);
@@ -57,7 +55,6 @@ namespace EducationAPI.Controllers
         [SwaggerResponse(StatusCodes.Status201Created, Type = typeof(ReviewDTO))]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         [Authorize(Roles = "Admin, User")]
-
         public async Task<ActionResult> CreateReviewAsync([FromBody] CreateReveiwDTO createReveiwDTO)
         {
             var newReview = await _reviewServices.CreateReviewAsync(createReveiwDTO);
@@ -74,7 +71,6 @@ namespace EducationAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(ReviewDTO))]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         [Authorize(Roles = "Admin, User")]
-
         public async Task<ActionResult>PutReviewAsync([FromBody] PutReviewDTO putReviewDTO, [FromRoute] int reviewID)
         {
             var updateReview = await _reviewServices.PutReviewAsync(putReviewDTO, reviewID);
@@ -89,6 +85,8 @@ namespace EducationAPI.Controllers
         [HttpDelete("{reviewID}")]
         [SwaggerResponse(StatusCodes.Status204NoContent)]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin")]
+
         public async Task<ActionResult> DeleteReviewAsync([FromRoute] int reviewID)
         {
             await _reviewServices.DeleteReviewAsync(reviewID);
@@ -105,7 +103,6 @@ namespace EducationAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(ReviewDTO))]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
         [Authorize(Roles = "Admin, User")]
-
         public async Task<ActionResult> UpdateReviewAsync([FromBody] UpdateReviewDTO updateReviewDTO, [FromRoute] int reviewID)
         {
             var updateReview = await _reviewServices.UpdateReviewAsync(updateReviewDTO, reviewID);

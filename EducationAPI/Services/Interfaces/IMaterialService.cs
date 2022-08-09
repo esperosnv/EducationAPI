@@ -1,8 +1,4 @@
 ﻿using EducationAPI.Models.Material;
-using EducationAPI.Models;
-using EducationAPI.Data.Entities;
-
-
 
 namespace EducationAPI.Services
 {

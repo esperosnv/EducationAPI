@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using EducationAPI.Data.Entities;
+﻿using EducationAPI.Data.Entities;
 using EducationAPI.Data.DAL.Interfaces;
 using EducationAPI.Data.Context;
 using Microsoft.EntityFrameworkCore;

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using EducationAPI.Services;
 using EducationAPI.Models.Author;
-using EducationAPI.Data.Exceptions;
-using EducationAPI.Data.Exceptions;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net.Mime;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +9,7 @@ namespace EducationAPI.Controllers
 {
     [Route("api/authors")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class AuthorController : ControllerBase
     {
         private readonly IAuthorService _authorService;
@@ -28,6 +26,7 @@ namespace EducationAPI.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(IEnumerable<AuthorDTO>))]
         [Authorize(Roles = "Admin, User")]
+
         public async Task<ActionResult<IEnumerable<AuthorDTO>>> GetAllAuthorsAsync([FromQuery] string? searchPhrase, string? direction)
         {
             var authors = await _authorService.GetAllAuthorsAsync(searchPhrase, direction);
@@ -57,7 +56,7 @@ namespace EducationAPI.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         [SwaggerResponse(StatusCodes.Status201Created, Type = typeof(AuthorDTO))]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
-
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> CreateAuthorAsync([FromBody] CreateAuthorDTO createAuthorDTO)
         {
             var newAuthorDTO = await _authorService.CreateAuthorAsync(createAuthorDTO);
@@ -73,12 +72,12 @@ namespace EducationAPI.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(AuthorDTO))]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> PutAuthorAsync([FromBody] PutAuthorDTO putAuthorDTO, [FromRoute] int authorID)
         {
             var updateAuthor = await _authorService.PutAuthorAsync(putAuthorDTO, authorID);
             return Ok(updateAuthor);
         }
-
 
 
         /// <summary>
@@ -87,7 +86,7 @@ namespace EducationAPI.Controllers
         [HttpDelete("{authorID}")]
         [SwaggerResponse(StatusCodes.Status204NoContent)]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
-
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteAuthorAsync([FromRoute] int authorID)
         {
             await _authorService.DeleteAuthorAsync(authorID);
@@ -103,7 +102,7 @@ namespace EducationAPI.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(AuthorDTO))]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
-
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> UpdateAuthorAsync([FromBody] UpdateAuthorDTO updateAuthorDTO, [FromRoute] int authorID)
         {
             var updateAuthor = await _authorService.UpdateAuthorAsync(updateAuthorDTO, authorID);
@@ -117,21 +116,12 @@ namespace EducationAPI.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(AuthorDTO))]
         [SwaggerResponse(StatusCodes.Status404NotFound)]
-
-        public async Task<ActionResult<AuthorDTO>> GetMostProductiveAuthorAsync([FromRoute] int authorID)
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<AuthorDTO>> GetMostProductiveAuthorAsync()
         {
-            var author = await _authorService.GetProductiveAuthorsAsync();
+            var author = await _authorService.GetMostProductiveAuthorsAsync();
             return Ok(author);
         }
-
-
-        //[HttpGet("{authorID}/top")]
-
-        //public async Task<ActionResult> GetTopMaterialsFromAuthor([FromRoute] int authorID)
-        //{
-        //    var materialDTO = await _authorService.GetTopMaterialsFromAuthorAsync(authorID);
-        //    return Ok(materialDTO);
-        //}
 
     }
 }

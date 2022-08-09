@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using EducationAPI.Services;
 using EducationAPI.Models.Material;
-using EducationAPI.Data.Entities;
-using EducationAPI.Models;
-using EducationAPI.Data.Exceptions;
 using System.Net.Mime;
 using Swashbuckle.AspNetCore.Annotations;
 using Microsoft.AspNetCore.Authorization;
@@ -12,7 +9,6 @@ namespace EducationAPI.Controllers
 {
     [Route("api/materials")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
 
     public class MaterialController : ControllerBase
     {
@@ -36,7 +32,6 @@ namespace EducationAPI.Controllers
             return Ok(materials);
         }
 
-
         /// <summary>
         /// Get a material by id
         /// </summary> 
@@ -59,12 +54,12 @@ namespace EducationAPI.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         [SwaggerResponse(StatusCodes.Status201Created, Type = typeof(MaterialDTO))]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> CreateMaterialAsync([FromBody] CreateMaterialDTO createMaterialDTO)
         {
             var newMaterialDTO = await _materialService.CreateMaterialAsync(createMaterialDTO);
             return Created($"{Request.Scheme}://{Request.Host}{Request.Path}/{newMaterialDTO.MaterialID}", newMaterialDTO);
         }
-
 
         /// <summary>
         /// Update all fields of material by id
@@ -74,14 +69,12 @@ namespace EducationAPI.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(MaterialDTO))]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
-
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> PutMaterialAsync([FromBody] PutMaterialsDTO putMaterialsDTO, [FromRoute] int materialID)
         {
             var updateMaterial = await _materialService.PutMaterialAsync(putMaterialsDTO, materialID);
             return Ok(updateMaterial);
         }
-
-
 
 
         /// <summary>
@@ -90,6 +83,7 @@ namespace EducationAPI.Controllers
         [HttpDelete("{materialID}")]
         [SwaggerResponse(StatusCodes.Status204NoContent)]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteMaterialAsync([FromRoute] int materialID)
         {
             await _materialService.DeleteMaterialAsync(materialID);
@@ -105,7 +99,7 @@ namespace EducationAPI.Controllers
         [Consumes(MediaTypeNames.Application.Json)]
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(MaterialDTO))]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
-
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> UpdateMaterialAsync([FromBody] UpdateMaterialDTO updateMaterialDTO, [FromRoute] int materialID)
         {
             var updateMaterial = await _materialService.UpdateMaterialAsync(updateMaterialDTO, materialID);
@@ -113,13 +107,12 @@ namespace EducationAPI.Controllers
         }
 
         /// <summary>
-        /// Get materials by type
+        /// Get materials by selected type
         /// </summary> 
-        /// 
         [HttpGet("type/{typeName}")]
-
         [Produces(MediaTypeNames.Application.Json)]
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(IEnumerable<MaterialDTO>))]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<MaterialDTO>>> GetMaterialsByType([FromRoute] string typeName)
         {
             var materials = await _materialService.GetMaterialsFromSelectedType(typeName);
