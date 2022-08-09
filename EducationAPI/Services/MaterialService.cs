@@ -95,6 +95,29 @@ namespace EducationAPI.Services
             return await GetMaterialByIDAsync(materialID);
         }
 
+        public async Task<MaterialDTO> PutMaterialAsync(PutMaterialsDTO putMaterialsDTO, int materialID)
+        {
+
+            var material = await _materialRepository.GetSingleAsync(m => m.MaterialID == materialID);
+            if (material is null) throw new ResourceNotFoundException($"Material with ID {materialID} not found");
+
+            material.Description = putMaterialsDTO.Description;
+            material.Title = putMaterialsDTO.Title;
+            material.Location = putMaterialsDTO.Location;
+
+            var author = await _authorRepository.GetSingleAsync(A => A.AuthorID == putMaterialsDTO.AuthorID);
+            if (author is null) throw new ResourceNotFoundException($"Author with ID {putMaterialsDTO.AuthorID} not found");
+            material.AuthorID = putMaterialsDTO.AuthorID;
+
+            var materialType = await _materialTypeRepository.GetSingleAsync(t => t.MaterialTypeID == putMaterialsDTO.MaterialTypeID);
+            if (materialType is null) throw new ResourceNotFoundException($"Type of materials with ID {putMaterialsDTO.MaterialTypeID} not found");
+            material.MaterialTypeID = putMaterialsDTO.MaterialTypeID;
+            material.PublishingDate = putMaterialsDTO.PublishingDate;
+
+            await _materialRepository.SaveAsync();
+            return await GetMaterialByIDAsync(materialID);
+        }
+
 
 
     }

@@ -60,6 +60,25 @@ namespace EducationAPI.Controllers
             return Created($"{Request.Scheme}://{Request.Host}{Request.Path}/{newMaterialDTO.MaterialID}", newMaterialDTO);
         }
 
+
+        /// <summary>
+        /// Update all fields of material by id
+        /// </summary> 
+        [HttpPut("{materialID}")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(MaterialDTO))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
+
+        public async Task<ActionResult> PutMaterialAsync([FromBody] PutMaterialsDTO putMaterialsDTO, [FromRoute] int materialID)
+        {
+            var updateMaterial = await _materialService.PutMaterialAsync(putMaterialsDTO, materialID);
+            return Ok(updateMaterial);
+        }
+
+
+
+
         /// <summary>
         /// Delete a material by id
         /// </summary> 

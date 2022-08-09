@@ -77,7 +77,27 @@ namespace EducationAPI.Services
             {
                 var material = await _materialRepository.GetSingleAsync(m => m.MaterialID == updateReviewDTO.MaterialID);
                 if (material is null) throw new ResourceNotFoundException($"Material with ID {updateReviewDTO.MaterialID} not found");
+                review.MaterialID = (int)updateReviewDTO.MaterialID;
             }
+
+            await _reviewRepository.SaveAsync();
+            return await GetReviewByIDAsync(reviewID);
+        }
+
+
+        public async Task<ReviewDTO> PutReviewAsync(PutReviewDTO putReviewDTO, int reviewID)
+        {
+            var review = await _reviewRepository.GetSingleAsync(A => A.ReviewID == reviewID);
+            if (review is null) throw new ResourceNotFoundException($"Review with ID {reviewID} not found");
+
+
+            review.Text = putReviewDTO.Text;
+            review.Rating = (uint)putReviewDTO.Rating;
+          
+            var material = await _materialRepository.GetSingleAsync(m => m.MaterialID == putReviewDTO.MaterialID);
+            if (material is null) throw new ResourceNotFoundException($"Material with ID {putReviewDTO.MaterialID} not found");
+            review.MaterialID = putReviewDTO.MaterialID;
+            
 
             await _reviewRepository.SaveAsync();
             return await GetReviewByIDAsync(reviewID);

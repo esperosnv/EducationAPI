@@ -72,5 +72,17 @@ namespace EducationAPI.Services
 
             return await GetAuthorByIDAsync(authorID);
         }
+
+        public async Task<AuthorDTO> PutAuthorAsync(PutAuthorDTO putAuthorDTO, int authorID)
+        {
+            var author = await _authorRepository.GetSingleAsync(A => A.AuthorID == authorID);
+            if (author is null) throw new ResourceNotFoundException($"Author with ID {authorID} not found");
+            author.Description = putAuthorDTO.Description;
+            author.Name = putAuthorDTO.Name;
+
+            await _authorRepository.SaveAsync();
+            return await GetAuthorByIDAsync(authorID);
+
+        }
     }
 }

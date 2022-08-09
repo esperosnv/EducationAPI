@@ -56,6 +56,24 @@ namespace EducationAPI.Controllers
             return Ok(newReview);
         }
 
+
+        /// <summary>
+        /// Update all fields of review by id
+        /// </summary> 
+        [HttpPut("{reviewID}")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(ReviewDTO))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
+
+        public async Task<ActionResult>PutReviewAsync([FromBody] PutReviewDTO putReviewDTO, [FromRoute] int reviewID)
+        {
+            var updateReview = await _reviewServices.PutReviewAsync(putReviewDTO, reviewID);
+            return Ok(updateReview);
+        }
+
+
+
         /// <summary>
         /// Delete a review by id
         /// </summary> 
@@ -78,7 +96,7 @@ namespace EducationAPI.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(ReviewDTO))]
         [SwaggerResponse(StatusCodes.Status400BadRequest)]
 
-        public async Task<ActionResult> UpdateAuthorAsync([FromBody] UpdateReviewDTO updateReviewDTO, [FromRoute] int reviewID)
+        public async Task<ActionResult> UpdateReviewAsync([FromBody] UpdateReviewDTO updateReviewDTO, [FromRoute] int reviewID)
         {
             var updateReview = await _reviewServices.UpdateReviewAsync(updateReviewDTO, reviewID);
             return Ok(updateReview);

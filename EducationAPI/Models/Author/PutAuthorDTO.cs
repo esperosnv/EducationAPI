@@ -2,7 +2,7 @@
 
 namespace EducationAPI.Models.Author
 {
-    public class CreateAuthorDTO
+    public class PutAuthorDTO
     {
         [Required]
         public string Name { get; set; }

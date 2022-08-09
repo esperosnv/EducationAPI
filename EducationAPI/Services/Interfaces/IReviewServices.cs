@@ -14,5 +14,6 @@ namespace EducationAPI.Services
         Task<IEnumerable<ReviewDTO>> GetAllReviewAsync(string? searchPhrase, string? direction);
         Task<ReviewDTO> GetReviewByIDAsync(int reviewID);
         Task<ReviewDTO> UpdateReviewAsync(UpdateReviewDTO updateReviewDTO, int reviewID);
+        Task<ReviewDTO> PutReviewAsync(PutReviewDTO putReviewDTO, int reviewID);
     }
 }

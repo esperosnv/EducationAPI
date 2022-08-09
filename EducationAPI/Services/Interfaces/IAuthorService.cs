@@ -13,5 +13,6 @@ namespace EducationAPI.Services
         Task<AuthorDTO> CreateAuthorAsync(CreateAuthorDTO createAuthorDTO);
         Task DeleteAuthorAsync(int authorID);
         Task<AuthorDTO> UpdateAuthorAsync(UpdateAuthorDTO updateAuthorDTO, int authorID);
+        Task<AuthorDTO> PutAuthorAsync(PutAuthorDTO putAuthorDTO, int authorID);
     }
 }

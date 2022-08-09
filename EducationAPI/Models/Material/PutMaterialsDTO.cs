@@ -2,7 +2,7 @@
 
 namespace EducationAPI.Models.Material
 {
-    public class CreateMaterialDTO
+    public class PutMaterialsDTO
     {
         [Required]
         public string Title { get; set; }

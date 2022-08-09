@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-
 namespace EducationAPI.Models.Review
 {
-    public class CreateReveiwDTO
+    public class PutReviewDTO
     {
         [Required]
         public string Text { get; set; }

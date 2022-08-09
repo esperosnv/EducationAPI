@@ -63,6 +63,22 @@ namespace EducationAPI.Controllers
 
 
         /// <summary>
+        /// Update all fields of author by id
+        /// </summary> 
+        [HttpPut("{authorID}")]
+        [Produces(MediaTypeNames.Application.Json)]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [SwaggerResponse(StatusCodes.Status200OK, Type = typeof(AuthorDTO))]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> PutAuthorAsync([FromBody] PutAuthorDTO putAuthorDTO, [FromRoute] int authorID)
+        {
+            var updateAuthor = await _authorService.PutAuthorAsync(putAuthorDTO, authorID);
+            return Ok(updateAuthor);
+        }
+
+
+
+        /// <summary>
         /// Delete an author by id
         /// </summary> 
         [HttpDelete("{authorID}")]
